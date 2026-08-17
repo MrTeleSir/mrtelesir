@@ -905,7 +905,9 @@
             <h2 id="streamHeading">Live Broadcast Channel</h2>
             <p id="streamSubheading">Streaming community gameplay, tech projects, and late-night vibes.</p>
           </div>
-          <a href="https://twitch.tv/mrtelesir" target="_blank" class="watch-on-btn" id="watchOnTwitchBtn"><i class="fa-brands fa-twitch"></i> Open Twitch</a>
+          <a href="https://twitch.tv/mrtelesir" target="_blank" class="watch-on-btn" id="watchOnTwitchBtn">
+            <i class="fa-brands fa-twitch"></i> Open Twitch
+          </a>
           
         </div>
       </div>
@@ -960,13 +962,13 @@
           
         </div>
         <div class="platforms-grid" id="platformsGrid">
-          <a href="tiktok.com/@Telesirgaming" target="_blank" class="platform-card" data-name="Tiktok">
+          <a href="https://twitch.tv/mrtelesir" target="_blank" class="platform-card" data-name="Twitch">
             <div class="platform-card-top">
-              <i class="fa-brands fa-tiktok" style="color: var(--twitch-purple);"></i>
+              <i class="fa-brands fa-twitch" style="color: var(--twitch-purple);"></i>
               <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
             </div>
-            <span>Tiktok</span>
-            <p>VODs, clips, &amp; highlights</p>
+            <span>Twitch</span>
+            <p>Main live broadcasts &amp; chat</p>
             
           </a>
           <a href="https://kick.com/mrtelesir" target="_blank" class="platform-card" data-name="Kick">
@@ -978,7 +980,7 @@
             <p>Alternative streaming portal</p>
             
           </a>
-          <a href="https://youtube.com/@telesirgaming" target="_blank" class="platform-card" data-name="YouTube">
+          <a href="https://youtube.com/@mrtelesir" target="_blank" class="platform-card" data-name="YouTube">
             <div class="platform-card-top">
               <i class="fa-brands fa-youtube" style="color: var(--youtube-red);"></i>
               <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
@@ -987,7 +989,7 @@
             <p>VODs, clips, &amp; highlights</p>
             
           </a>
-          <a href="https://discord.gg/NVbtDdWXyQ" target="_blank" class="platform-card" data-name="Discord">
+          <a href="https://discord.gg/mrtelesir" target="_blank" class="platform-card" data-name="Discord">
             <div class="platform-card-top">
               <i class="fa-brands fa-discord" style="color: var(--discord-blurple);"></i>
               <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
@@ -1137,7 +1139,7 @@
   <!-- ADD HUB / PLATFORM MODAL -->
   <div class="modal-backdrop" id="platformModal">
     <div class="modal-box">
-      <h3 id="platformModalTitle">Edit Connected Hub / Platform</h3>
+      <h3 id="platformModalTitle">Add Connected Hub / Platform</h3>
       <div class="form-group">
         <label>Platform Name</label>
         <input type="text" id="newPlatformName" class="form-input" placeholder="e.g. Twitter / X">
@@ -1156,7 +1158,7 @@
       </div>
       <div class="modal-buttons">
         <button class="modal-btn cancel" onclick="closeAddPlatformModal()">Cancel</button>
-        <button class="modal-btn submit" id="platformModalSubmitBtn" onclick="confirmAddPlatform()">Save Changes</button>
+        <button class="modal-btn submit" id="platformModalSubmitBtn" onclick="confirmAddPlatform()">Add Hub</button>
       </div>
     </div>
   </div>
