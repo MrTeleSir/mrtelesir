@@ -683,7 +683,7 @@
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="adminPassword" placeholder="Default: admin" required="">
+          <input type="password" id="adminPassword" placeholder="Enter password" required="">
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
         <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="toggleAdminModal()">Cancel</button>
@@ -823,7 +823,7 @@ GPU | RTX 4080" required=""></textarea>
   <script>
     let isAdmin = false;
     let isOnAir = false;
-    const DEFAULT_PASS = "admin";
+    const DEFAULT_PASS = "Breannas1";
 
     window.addEventListener('DOMContentLoaded', () => {
       loadSavedContent();
@@ -863,7 +863,7 @@ GPU | RTX 4080" required=""></textarea>
         document.getElementById('adminPassword').value = '';
         setEditable(true);
       } else {
-        alert('Incorrect password! (Default is "admin")');
+        alert('Incorrect password!');
       }
     }
 
