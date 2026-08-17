@@ -2,1210 +2,1726 @@
 <html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MrTelesir | Official Hub</title>
+  <title>MrTelesir | Official Stream &amp; Hub</title>
   <!-- Google Fonts & FontAwesome -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;family=Orbitron:wght@700;900&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Rajdhani:wght@600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  
   <style>
-    /* RESET & VARS */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
+    :root {
+      --bg-main: #0b0e14;
+      --bg-card: #141b24;
+      --bg-card-hover: #1a2330;
+      --border-color: #212d3d;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      
+      --twitch-purple: #9146FF;
+      --twitch-purple-hover: #772ce8;
+      --kick-green: #53FC18;
+      --kick-dark: #1f2b1d;
+      --youtube-red: #FF0000;
+      --discord-blurple: #5865F2;
+      --tiktok-pink: #FE2C55;
+      --shop-orange: #ff7700;
+      
+      --live-red: #eb0400;
+      --accent-primary: #9146FF;
+      --accent-secondary: #00f0ff;
+      --admin-bg: #1c1917;
+      --admin-border: #78350f;
     }
 
-    :root {
-      --bg-dark: #0b0e14;
-      --card-bg: #151922;
-      --accent-color: #9146FF; /* Twitch purple */
-      --accent-secondary: #00f2fe;
-      --text-main: #f0f2f5;
-      --text-muted: #9ba1b0;
-      --border-color: #242b3b;
-      --font-title: 'Orbitron', sans-serif;
-      --font-body: 'Inter', sans-serif;
-      --admin-color: #ff9900;
-      --live-red: #ff4d4d;
-      --off-gray: #718096;
-      --kick-green: #53fc18;
-      --tiktok-pink: #ff0050;
-      --merch-yellow: #ffb703;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      background-color: var(--bg-dark);
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
       color: var(--text-main);
-      font-family: var(--font-body);
-      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       overflow-x: hidden;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70vw;
+      height: 40vh;
+      background: radial-gradient(ellipse at center, rgba(145, 70, 255, 0.12) 0%, rgba(11, 14, 20, 0) 70%);
+      z-index: -1;
+      pointer-events: none;
     }
 
-    /* NAVIGATION */
-    nav {
+    /* --- ADMIN PANEL BAR --- */
+    .admin-panel-bar {
       position: fixed;
       top: 0;
-      width: 100%;
-      background: rgba(11, 14, 20, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
+      left: 0;
+      right: 0;
+      background: var(--admin-bg);
+      border-bottom: 2px solid var(--admin-border);
+      padding: 10px 24px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
       z-index: 1000;
-      padding: 1rem 2rem;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    body.admin-mode .admin-panel-bar {
+      display: flex;
+    }
+    body.admin-mode {
+      padding-top: 50px;
+    }
+    .admin-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fde047;
+      font-weight: 600;
+    }
+    .admin-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .admin-btn {
+      background: #292524;
+      color: #fff;
+      border: 1px solid #44403c;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .admin-btn:hover {
+      background: #44403c;
+    }
+    .admin-btn.primary {
+      background: #ca8a04;
+      border-color: #eab308;
+      color: #1c1917;
+    }
+    .admin-btn.primary:hover {
+      background: #eab308;
+    }
+    .admin-btn.success {
+      background: #15803d;
+      border-color: #22c55e;
+      color: #fff;
+    }
+    .admin-btn.success:hover {
+      background: #16a34a;
+    }
+
+    /* Floating Admin Toggle Trigger */
+    .admin-toggle-trigger {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(20, 27, 36, 0.8);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .admin-toggle-trigger:hover {
+      color: var(--text-main);
+      border-color: var(--accent-primary);
+      transform: scale(1.05);
+    }
+
+    /* Admin Action Controls inside Cards */
+    .admin-only-control {
+      display: none;
+      margin-top: 10px;
+      gap: 8px;
+    }
+    body.admin-mode .admin-only-control {
+      display: flex;
+    }
+    .item-admin-btn {
+      background: #1f2937;
+      border: 1px solid #374151;
+      color: #9ca3af;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .item-admin-btn:hover {
+      background: #374151;
+      color: #fff;
+    }
+    .item-admin-btn.danger:hover {
+      background: #7f1d1d;
+      border-color: #ef4444;
+      color: #fca5a5;
+    }
+
+    /* --- HEADER / NAVIGATION --- */
+    header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 20px 48px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
     }
 
-    .nav-brand {
-      font-family: var(--font-title);
-      font-size: 1.5rem;
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .logo-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--twitch-purple), var(--accent-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 900;
-      color: #fff;
+      font-size: 1.4rem;
+      color: white;
+      box-shadow: 0 4px 15px rgba(145, 70, 255, 0.3);
+    }
+
+    .logo-text h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .live-badge-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--text-muted);
+      border-radius: 50%;
+      transition: background-color 0.3s;
+    }
+
+    .live-dot.is-live {
+      background-color: var(--live-red);
+      box-shadow: 0 0 10px var(--live-red);
+      animation: pulse 1.55s infinite;
+    }
+
+    .live-status-text {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .live-status-text.is-live {
+      color: var(--live-red);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px var(--live-red); }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    .nav-socials {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .social-icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+    }
+
+    .social-icon-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+      border-color: var(--text-muted);
+      transform: translateY(-2px);
+    }
+    .social-icon-btn.twitch:hover { color: var(--twitch-purple); border-color: var(--twitch-purple); }
+    .social-icon-btn.kick:hover { color: var(--kick-green); border-color: var(--kick-green); }
+    .social-icon-btn.youtube:hover { color: var(--youtube-red); border-color: var(--youtube-red); }
+    .social-icon-btn.discord:hover { color: var(--discord-blurple); border-color: var(--discord-blurple); }
+    .social-icon-btn.tiktok:hover { color: var(--tiktok-pink); border-color: var(--tiktok-pink); }
+    .social-icon-btn.shop:hover { color: var(--shop-orange); border-color: var(--shop-orange); }
+
+    /* --- MAIN HERO CONTAINER --- */
+    main {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 48px 60px 48px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    @media(max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+      header, main {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    .stream-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .stream-details {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .stream-info-left h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    .stream-info-left p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .watch-on-btn {
+      background: var(--twitch-purple);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .watch-on-btn:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 4px 15px rgba(145, 70, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .sidebar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .card-header-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+    }
+
+    .card-header-title div {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .nav-status {
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.3s ease;
-    }
-
-    .nav-status.off-air {
-      background: rgba(113, 128, 150, 0.2);
-      color: var(--off-gray);
-      border: 1px solid var(--off-gray);
-    }
-
-    .nav-status.on-air {
-      background: rgba(255, 77, 77, 0.2);
-      color: var(--live-red);
-      border: 1px solid var(--live-red);
-      box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 1.5rem;
-    }
-
-    .nav-links a {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
+    .card-header-title i {
       color: var(--accent-secondary);
     }
 
-    /* HERO SECTION */
-    header.hero {
-      min-height: 85vh;
+    .schedule-list {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 8rem 2rem 4rem;
-      background: radial-gradient(circle at center, rgba(145, 70, 255, 0.15) 0%, rgba(11, 14, 20, 1) 70%);
-      position: relative;
+      gap: 12px;
     }
 
-    .avatar-wrapper {
-      position: relative;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-avatar {
-      width: 170px;
-      height: 170px;
-      border-radius: 50%;
-      border: 4px solid var(--accent-secondary);
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
-      background: #1e2533;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4.5rem;
-      color: var(--accent-secondary);
-      object-fit: cover;
-      overflow: hidden;
-    }
-
-    .hero-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .on-air-badge {
-      position: absolute;
-      bottom: -5px;
-      background: var(--live-red);
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border: 2px solid var(--bg-dark);
-      display: none;
-    }
-
-    body.live-active .on-air-badge {
-      display: block;
-    }
-
-    .hero h1 {
-      font-family: var(--font-title);
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      letter-spacing: 2px;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin-bottom: 2rem;
-    }
-
-    .social-buttons {
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      max-width: 800px;
-    }
-
-    .btn {
-      padding: 0.8rem 1.6rem;
-      border-radius: 6px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: none;
-      font-size: 0.95rem;
-    }
-
-    .btn-twitch { background: var(--accent-color); color: #fff; }
-    .btn-twitch:hover { background: #772ce8; box-shadow: 0 0 15px rgba(145, 70, 255, 0.5); }
-
-    .btn-youtube { background: #ff0000; color: #fff; }
-    .btn-youtube:hover { background: #cc0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
-
-    .btn-discord { background: #5865F2; color: #fff; }
-    .btn-discord:hover { background: #4752c4; box-shadow: 0 0 15px rgba(88, 101, 242, 0.5); }
-
-    .btn-kick { background: var(--kick-green); color: #000; font-weight: 800; }
-    .btn-kick:hover { background: #42cb12; box-shadow: 0 0 15px rgba(83, 252, 24, 0.5); }
-
-    .btn-tiktok { background: #000; color: #fff; border: 1px solid var(--tiktok-pink); }
-    .btn-tiktok:hover { background: var(--tiktok-pink); box-shadow: 0 0 15px rgba(255, 0, 80, 0.5); }
-
-    .btn-merch { background: var(--merch-yellow); color: #000; font-weight: 700; }
-    .btn-merch:hover { background: #e0a200; box-shadow: 0 0 15px rgba(255, 183, 3, 0.5); }
-
-    .btn-primary { background: var(--accent-color); color: #fff; }
-    .btn-outline { border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-main); }
-    .btn-outline:hover { border-color: var(--accent-secondary); color: var(--accent-secondary); }
-
-    .btn-admin {
-      background: transparent;
-      border: 1px solid var(--admin-color);
-      color: var(--admin-color);
-      padding: 0.4rem 0.9rem;
-      font-size: 0.85rem;
-    }
-
-    .btn-admin:hover {
-      background: var(--admin-color);
-      color: #000;
-    }
-
-    .btn-publish {
-      background: #00c853;
-      border: 1px solid #00c853;
-      color: #fff;
-      padding: 0.4rem 0.9rem;
-      font-size: 0.85rem;
-      font-weight: bold;
-    }
-
-    .btn-publish:hover {
-      background: #009624;
-      border-color: #009624;
-    }
-
-    /* SECTIONS */
-    section {
-      padding: 5rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-header-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-
-    .section-title {
-      font-family: var(--font-title);
-      font-size: 2rem;
-      text-align: center;
-      position: relative;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 2rem;
-      position: relative;
-      transition: transform 0.3s, border-color 0.3s;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent-color);
-    }
-
-    .card-icon {
-      font-size: 2.5rem;
-      color: var(--accent-secondary);
-      margin-bottom: 1rem;
-    }
-
-    .card h3 {
-      font-family: var(--font-title);
-      margin-bottom: 0.75rem;
-    }
-
-    .card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* SPECS LIST */
-    .specs-list {
-      list-style: none;
-      margin-top: 1rem;
-    }
-
-    .specs-list li {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      padding: 0.4rem 0;
-      border-bottom: 1px dotted var(--border-color);
+    .schedule-item {
       display: flex;
       justify-content: space-between;
-      gap: 1rem;
+      align-items: center;
+      padding: 12px 14px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      position: relative;
     }
 
-    .specs-list li strong {
+    .schedule-day {
+      font-weight: 600;
+      font-size: 0.9rem;
       color: var(--text-main);
     }
 
-    .project-card {
-      border-left: 4px solid var(--accent-secondary);
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      background: rgba(0, 242, 254, 0.1);
+    .schedule-time {
+      font-size: 0.85rem;
       color: var(--accent-secondary);
-      border-radius: 4px;
-      margin-top: 1rem;
+      background: rgba(0, 240, 255, 0.08);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 500;
     }
 
-    /* ADMIN CONTROLS & HIGHLIGHTING */
-    .admin-controls {
-      display: none;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px dashed var(--admin-color);
+    .content-sections-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
     }
 
-    body.admin-mode .admin-controls {
+    @media(max-width: 900px) {
+      .content-sections-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .platform-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      text-decoration: none;
       display: flex;
-      gap: 0.5rem;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s;
+      position: relative;
     }
 
-    body.admin-mode [contenteditable="true"] {
-      outline: 2px dashed var(--admin-color);
-      border-radius: 4px;
-      padding: 2px 4px;
-      background: rgba(255, 153, 0, 0.05);
+    .platform-card:hover {
+      border-color: var(--text-muted);
+      transform: translateY(-3px);
+      background: var(--bg-card-hover);
     }
 
-    .admin-panel-bar {
-      display: none;
-      background: #11151c;
-      border-bottom: 2px solid var(--admin-color);
-      padding: 0.75rem 2rem;
-      position: fixed;
-      top: 65px;
-      width: 100%;
-      z-index: 999;
-      justify-content: space-between;
+    .platform-card-top {
+      display: flex;
       align-items: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      justify-content: space-between;
     }
 
-    body.admin-mode .admin-panel-bar {
+    .platform-card-top i {
+      font-size: 1.4rem;
+    }
+
+    .platform-card span {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-main);
+    }
+
+    .platform-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* --- MODS SECTION --- */
+    .mods-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
       display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    /* MODALS */
-    .modal-overlay {
-      display: none;
+    .mods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .mod-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .mod-card:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .mod-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mod-avatar-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--tiktok-pink), var(--shop-orange));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: white;
+    }
+
+    .mod-name-text {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .mod-role-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* --- STREAMER LOOKUP & HUB SECTION --- */
+    .streamer-lookup-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .lookup-controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .lookup-controls input {
+      flex: 1;
+      min-width: 220px;
+      padding: 12px 16px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .lookup-controls input:focus {
+      border-color: var(--accent-primary);
+    }
+
+    .lookup-controls select {
+      padding: 12px 16px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .lookup-add-btn {
+      background: var(--twitch-purple);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lookup-add-btn:hover {
+      background: var(--twitch-purple-hover);
+    }
+
+    .streamer-profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 5px;
+    }
+
+    .streamer-profile-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .streamer-profile-card:hover {
+      border-color: var(--twitch-purple);
+      transform: translateY(-2px);
+      background: var(--bg-card-hover);
+    }
+
+    .streamer-profile-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .streamer-avatar-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--twitch-purple), var(--accent-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .streamer-text-details {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .streamer-card-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .streamer-card-platform {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .shop-feature-card {
+      background: linear-gradient(135deg, rgba(255,119,0,0.1), var(--bg-main));
+      border: 1px solid rgba(255,119,0,0.3);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shop-feature-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffa500;
+    }
+
+    .shop-feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .shop-btn {
+      background: linear-gradient(135deg, #ff7700, #ff4500);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(255, 119, 0, 0.3);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .shop-btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 24px 48px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      margin-top: auto;
+    }
+
+    /* --- MODALS --- */
+    .modal-backdrop {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 3000;
-      justify-content: center;
+      right: 0;
+      bottom: 0;
+      background: rgba(11, 14, 20, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 2000;
+      display: none;
       align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
-
-    .modal {
-      background: var(--card-bg);
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-box {
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 2.5rem;
+      border-radius: 16px;
       width: 100%;
-      max-width: 450px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.8);
-      max-height: 90vh;
-      overflow-y: auto;
+      max-width: 480px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
-
-    .modal h2 {
-      font-family: var(--font-title);
-      margin-bottom: 1.5rem;
-      text-align: center;
+    .modal-box h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-main);
     }
-
-    .form-group {
-      margin-bottom: 1.2rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.4rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 0.8rem;
-      background: #0b0e14;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      color: #fff;
-      font-family: inherit;
-    }
-
-    .form-group input:focus, .form-group textarea:focus {
-      outline: none;
-      border-color: var(--accent-secondary);
-    }
-
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 3rem 2rem 5rem;
-      border-top: 1px solid var(--border-color);
-      background: #080a0e;
-      color: var(--text-muted);
+    .modal-box p {
       font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.4;
     }
-
-    .back-to-top {
-      display: block;
-      margin-bottom: 1.5rem;
-      color: var(--accent-secondary);
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group label {
+      font-size: 0.85rem;
       font-weight: 600;
+      color: var(--text-main);
     }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hero h1 { font-size: 2rem; }
-      .admin-panel-bar { flex-direction: column; gap: 0.5rem; }
+    .form-input {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: var(--accent-primary);
+    }
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .modal-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      border: none;
+      transition: all 0.2s;
+    }
+    .modal-btn.cancel {
+      background: var(--bg-main);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
+    .modal-btn.cancel:hover {
+      color: var(--text-main);
+    }
+    .modal-btn.submit {
+      background: var(--accent-primary);
+      color: white;
+    }
+    .modal-btn.submit:hover {
+      background: var(--twitch-purple-hover);
     }
   </style>
 </head>
-<body class="live-active">
+<body class="">
 
-  <!-- ADMIN QUICK CONTROL BAR -->
-  <div class="admin-panel-bar" id="adminPanelBar">
-    <div style="color: var(--admin-color); font-weight: bold; font-size: 0.9rem;">
-      <i class="fa-solid fa-user-gear"></i> ADMIN MODE ACTIVE — Click text to edit
-    </div>
-    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-      <!-- PUBLISH DIRECTLY TO GITHUB -->
-      <button class="btn btn-publish" onclick="openGithubModal()">
-        <i class="fa-solid fa-cloud-arrow-up"></i> Publish Live to GitHub
-      </button>
-      <!-- EDIT SOCIAL LINKS -->
-      <button class="btn btn-admin" onclick="openSocialModal()">
-        <i class="fa-solid fa-link"></i> Edit Social Links
-      </button>
-      <!-- ON AIR TOGGLE -->
-      <button class="btn btn-admin" onclick="toggleOnAir()">
-        <i class="fa-solid fa-tower-broadcast"></i> Toggle On-Air: <span id="onAirStateLabel">ON</span>
-      </button>
-      <!-- AVATAR UPLOAD -->
-      <label class="btn btn-admin" style="cursor: pointer;">
-        <i class="fa-solid fa-image"></i> Change Picture
-        <input type="file" id="avatarUpload" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
-      </label>
-    </div>
-  </div>
+  <!-- ADMIN BAR -->
+  
 
-  <!-- NAVIGATION -->
-  <nav>
-    <div class="nav-brand">
-      MRTELESIR
-      <span class="nav-status on-air" id="navStatusBadge">
-        <i class="fa-solid fa-circle"></i> <span id="statusText">ON AIR</span>
-      </span>
-    </div>
-    <div class="nav-right">
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#schedule">Schedule</a></li>
-        <li><a href="#hardware">Hardware</a></li>
-        <li><a href="#projects">Projects</a></li>
-      </ul>
-      <button class="btn btn-admin" id="adminBtn" onclick="toggleAdminModal()">
-        <i class="fa-solid fa-user-gear"></i> <span id="adminBtnText">Logout</span>
-      </button>
-    </div>
-  </nav>
+  <!-- FLOATING ADMIN TOGGLE -->
+  
 
-  <!-- HERO SECTION -->
-  <header class="hero">
-    <div class="avatar-wrapper">
-      <div class="hero-avatar" id="avatarContainer">
-        <i class="fa-solid fa-gamepad" id="avatarIcon" style="display: none;"></i>
-        <img id="avatarImg" src="data:image/png;base64,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" alt="Profile Picture" style="display: block;">
+  <!-- HEADER -->
+  <header>
+    <a href="#" class="logo-area">
+      <div class="logo-avatar" id="brandLogoLetter">T</div>
+      <div class="logo-text">
+        <h1 id="brandTitle">MrTelesir</h1>
+        <div class="live-badge-wrapper">
+          <div class="live-dot is-live" id="liveDot"></div>
+          <span class="live-status-text is-live" id="liveStatusText">ONLINE</span>
+        </div>
       </div>
-      <span class="on-air-badge">LIVE ON AIR</span>
-    </div>
+    </a>
 
-    <h1 id="heroTitle" contenteditable="false">MRTELESIR</h1>
-    <p id="heroSubtitle" contenteditable="false">Streamer, Tech Enthusiast &amp; Bot Develooper</p>
-    
-    <!-- SOCIAL LINKS -->
-    <div class="social-buttons">
-      <a href="https://twitch.tv/mrtelesir" target="_blank" id="linkTwitch" class="btn btn-twitch"><i class="fa-brands fa-twitch"></i> Twitch</a>
-      <a href="https://youtube.com/@Telesirgaming" target="_blank" id="linkYoutube" class="btn btn-youtube"><i class="fa-brands fa-youtube"></i> YouTube</a>
-      <a href="https://discord.gg/NVbtDdWXyQ" target="_blank" id="linkDiscord" class="btn btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
-      <a href="https://kick.com/mrtelesir" target="_blank" id="linkKick" class="btn btn-kick"><i class="fa-solid fa-bolt"></i> Kick</a>
-      <a href="https://tiktok.com/@telesirgaming" target="_blank" id="linkTiktok" class="btn btn-tiktok"><i class="fa-brands fa-tiktok"></i> TikTok</a>
-      <a href="https://mrtelesir-shop.fourthwall.com/" target="_blank" id="linkMerch" class="btn btn-merch"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
+    <div class="nav-socials" id="navSocialsContainer">
+      <a href="https://twitch.tv/mrtelesir" target="_blank" class="social-icon-btn twitch" title="Twitch"><i class="fa-brands fa-twitch"></i></a>
+      <a href="https://kick.com/mrtelesir" target="_blank" class="social-icon-btn kick" title="Kick"><i class="fa-solid fa-k"></i></a>
+      <a href="https://youtube.com/@mrtelesir" target="_blank" class="social-icon-btn youtube" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      <a href="https://discord.gg/mrtelesir" target="_blank" class="social-icon-btn discord" title="Discord"><i class="fa-brands fa-discord"></i></a>
+      <a href="https://mrtelesir-shop.fourthwall.com" target="_blank" class="social-icon-btn shop" title="Merch Shop"><i class="fa-solid fa-bag-shopping"></i></a>
     </div>
   </header>
 
-  <!-- ABOUT SECTION -->
-  <section id="about">
-    <h2 class="section-title" contenteditable="false" id="aboutTitle">About MrTelesir</h2>
-    <div class="grid">
-      <div class="card" style="grid-column: span 2;">
-        <div class="card-icon"><i class="fa-solid fa-user-ninja"></i></div>
-        <h3 contenteditable="false" class="editable-header">The Gamer &amp; Builder</h3>
-        <p id="aboutBio" contenteditable="false">I'm a U.S. Army Veteran, bringing you a variety of games, IRL adventures, and cooking sessions. My stream is running 24/7 during a Subathon, We are working towards a lofty goal of the Longest subathon ever! The adventure literally never stops! No matter when you tune in</p>
-      </div>
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-terminal"></i></div>
-        <h3 contenteditable="false" class="editable-header">Code &amp; Automation</h3>
-        <p contenteditable="false" class="editable-p">Specializing in custom Streamer.bot commands, interactive chat games, and overlay setups to keep every broadcast engageable.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCHEDULE SECTION -->
-  <section id="schedule">
-    <div class="section-header-wrap">
-      <h2 class="section-title">Stream Schedule</h2>
-      <button class="btn btn-admin" id="addScheduleBtn" style="display: inline-flex;" onclick="openScheduleModal()">
-        <i class="fa-solid fa-calendar-plus"></i> Add Stream Day
-      </button>
-    </div>
-    <div class="grid" id="scheduleGrid">
+  <!-- MAIN CONTAINER -->
+  <main>
+    <div class="hero-grid">
       
-
-      
-    <div class="card schedule-card">
-        <h3><i class="fa-regular fa-calendar-days"></i> <span contenteditable="false" class="sched-day">Monday-Sunday</span></h3>
-        <p style="color: var(--accent-secondary); font-weight: 600;" contenteditable="false" class="sched-time">24/7</p>
-        <p contenteditable="false" class="sched-desc">Variety Gaming &amp; Chill/ Community Games</p>
-        <div class="admin-controls">
-          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+      <!-- STREAM PLAYER -->
+      <div class="stream-container">
+        <div class="video-wrapper" id="videoWrapper">
+          <iframe id="twitchEmbed" src="https://player.twitch.tv/?channel=mrtelesir&amp;parent=localhost&amp;muted=true" allowfullscreen="">
+          </iframe>
         </div>
+        <div class="stream-details">
+          <div class="stream-info-left">
+            <h2 id="streamHeading">Live Broadcast Channel</h2>
+            <p id="streamSubheading">Streaming community gameplay, tech projects, and late-night vibes.</p>
+          </div>
+          <a href="https://twitch.tv/mrtelesir" target="_blank" class="watch-on-btn" id="watchOnTwitchBtn"><i class="fa-brands fa-twitch"></i> Open Twitch</a>
+          
+        </div>
+      </div>
+
+      <!-- STREAM SCHEDULE & INFO -->
+      <div class="sidebar-card">
+        <div class="card-header-title">
+          <div><i class="fa-solid fa-calendar-days"></i> Stream Schedule</div>
+          
+        </div>
+        <div class="schedule-list" id="scheduleList">
+          
+          
+          
+          
+        <div class="schedule-item">
+        <div>
+          <span class="schedule-day">Sunday - Saturday</span>
+          <span class="schedule-time">24/7</span>
+        </div>
+        
       </div></div>
-  </section>
-
-  <!-- HARDWARE / COMMAND CENTER -->
-  <section id="hardware">
-    <div class="section-header-wrap">
-      <h2 class="section-title">Command Center</h2>
-      <button class="btn btn-admin" id="addHardwareBtn" style="display: inline-flex;" onclick="openHardwareModal()">
-        <i class="fa-solid fa-desktop"></i> Add Spec Panel
-      </button>
-    </div>
-    <div class="grid" id="hardwareGrid">
-      <div class="card hardware-card">
-        <div class="card-icon"><i class="fa-solid fa-desktop"></i></div>
-        <h3 contenteditable="false">Gaming Rig</h3>
-        <ul class="specs-list">
-          <li><span contenteditable="false">CPU</span><strong contenteditable="false"><p style="border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-variant-alternates: inherit; font-variant-position: inherit; font-variant-emoji: inherit; font-weight: 400; font-stretch: inherit; font-size: 14px; line-height: 1.4; font-family: Inter, &quot;Noto Sans Arabic&quot;, Roobert, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; vertical-align: baseline; margin-block-end: 8px; color: rgb(239, 239, 241); background-color: rgb(14, 14, 16);">AMD Ryzen 7 9700X<br></p></strong></li>
-          <li><span contenteditable="false">GPU</span><strong contenteditable="false"><span style="color: rgb(239, 239, 241); font-family: Inter, &quot;Noto Sans Arabic&quot;, Roobert, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; background-color: rgb(14, 14, 16);">NVIDIA GeForce RTX 5070 TI</span></strong></li>
-          <li><span contenteditable="false">RAM</span><strong contenteditable="false"><span style="color: rgb(239, 239, 241); font-family: Inter, &quot;Noto Sans Arabic&quot;, Roobert, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; background-color: rgb(14, 14, 16);">32 GB DDR5</span></strong></li>
-        </ul>
-        <div class="admin-controls">
-          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
-        </div>
       </div>
 
-      <div class="card hardware-card">
-        <div class="card-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
-        <h3 contenteditable="false">Streaming Rig</h3>
-        <ul class="specs-list">
-          <li><span contenteditable="false">CPU</span><strong contenteditable="false"><p style="border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-variant-alternates: inherit; font-variant-position: inherit; font-variant-emoji: inherit; font-weight: 400; font-stretch: inherit; font-size: 14px; line-height: 1.4; font-family: Inter, &quot;Noto Sans Arabic&quot;, Roobert, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; vertical-align: baseline; margin-block-end: 8px; color: rgb(239, 239, 241); background-color: rgb(14, 14, 16);">AMD Ryzen 7 9700X<br></p></strong></li>
-          <li><span contenteditable="false">GPU</span><strong contenteditable="false"><span style="color: rgb(239, 239, 241); font-family: Inter, &quot;Noto Sans Arabic&quot;, Roobert, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; background-color: rgb(14, 14, 16);">: NVIDIA GeForce RTX 5070 TI</span></strong></li>
-          <li><span contenteditable="false">Encoder</span><strong contenteditable="false"><span style="color: rgb(239, 239, 241); font-family: Inter, &quot;Noto Sans Arabic&quot;, Roobert, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; background-color: rgb(14, 14, 16);">32 GB DDR5</span></strong></li>
-        </ul>
-        <div class="admin-controls">
-          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
-        </div>
-      </div>
-
-      <div class="card hardware-card">
-        <div class="card-icon"><i class="fa-solid fa-headset"></i></div>
-        <h3 contenteditable="false">Peripherals</h3>
-        <ul class="specs-list">
-          <li><span contenteditable="false">Mic</span><strong contenteditable="false">HyperX</strong></li>
-          <li><span contenteditable="false">Interface</span><strong contenteditable="false">Elgato Wavelink</strong></li>
-          <li><span contenteditable="false">Control</span><strong contenteditable="false">Elgato Stream Deck XL</strong></li>
-        </ul>
-        <div class="admin-controls">
-          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
-        </div>
-      </div>
     </div>
-  </section>
 
-  <!-- PROJECTS SECTION -->
-  <section id="projects">
-    <div class="section-header-wrap">
-      <h2 class="section-title">Projects &amp; Extensions</h2>
-      <button class="btn btn-admin" id="addProjectBtn" style="display: inline-flex;" onclick="openProjectModal()">
-        <i class="fa-solid fa-plus"></i> Add Project
-      </button>
-    </div>
-    <div class="grid" id="projectsGrid">
+    <!-- SECONDARY SECTION: PLATFORMS & SHOP -->
+    <div class="content-sections-grid">
       
-    <div class="card project-card">
-        <div class="card-icon"><i class="fa-solid fa-code"></i></div>
-        <h3 contenteditable="false" class="proj-title">IRL Stream in Tennessee </h3>
-        <p contenteditable="false" class="proj-desc">We are taking a roadtrip to Tennessee with a few friends and will be streaming the whole thing. </p>
-        <span class="tag proj-tag" contenteditable="false">IRL</span>
-        <div class="admin-controls">
-          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+      <!-- Quick Platforms Grid -->
+      <div class="sidebar-card" style="box-shadow:none;">
+        <div class="card-header-title">
+          <div><i class="fa-solid fa-globe"></i> Connected Hubs</div>
+          
         </div>
-      </div></div>
-  </section>
+        <div class="platforms-grid" id="platformsGrid">
+          <a href="https://www.tiktok.com/@telesirgaming" target="_blank" class="platform-card" data-name="TikTok">
+            <div class="platform-card-top">
+              <i class="fa-brands fa-tiktok" style="color: var(--twitch-purple);"></i>
+              <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </div>
+            <span>TikTok</span>
+            <p>VODs, clips, &amp; highlights</p>
+            
+          </a>
+          <a href="https://kick.com/mrtelesir" target="_blank" class="platform-card" data-name="Kick">
+            <div class="platform-card-top">
+              <i class="fa-solid fa-k" style="color: var(--kick-green);"></i>
+              <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </div>
+            <span>Kick</span>
+            <p>Alternative streaming portal</p>
+            
+          </a>
+          <a href="https://youtube.com/@mrtelesir" target="_blank" class="platform-card" data-name="YouTube">
+            <div class="platform-card-top">
+              <i class="fa-brands fa-youtube" style="color: var(--youtube-red);"></i>
+              <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </div>
+            <span>YouTube</span>
+            <p>VODs, clips, &amp; highlights</p>
+            
+          </a>
+          <a href="https://discord.gg/NVbtDdWXyQ" target="_blank" class="platform-card" data-name="Discord">
+            <div class="platform-card-top">
+              <i class="fa-brands fa-discord" style="color: var(--discord-blurple);"></i>
+              <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </div>
+            <span>Discord</span>
+            <p>Community server &amp; announcements</p>
+            
+          </a>
+        </div>
+      </div>
+
+      <!-- Merchandise Feature -->
+      <div class="shop-feature-card">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="card-header-title" style="border:none; padding:0;">
+            <div><i class="fa-solid fa-bag-shopping" style="color: var(--shop-orange);"></i> Official Merch Store</div>
+          </div>
+          <h3 id="shopHeading">MrTelesir Collection</h3>
+          <p id="shopDescription">High-quality apparel, hoodies, and stream accessories custom designed for the community. Grab your gear today!</p>
+        </div>
+        <a href="https://mrtelesir-shop.fourthwall.com" target="_blank" class="shop-btn" id="shopStoreLinkBtn">
+          <i class="fa-solid fa-store"></i> Visit Fourthwall Store <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- MODS SECTION -->
+    <div class="mods-section">
+      <div class="card-header-title">
+        <div><i class="fa-solid fa-shield-halved" style="color: var(--twitch-purple);"></i> Channel Moderators</div>
+        
+      </div>
+      <div class="mods-grid" id="modsGrid">
+        <div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">A</div>
+            <div>
+              <div class="mod-name-text">Asifab19</div>
+              <div class="mod-role-text">Head Administrator</div>
+            </div>
+          </div>
+          
+        </div>
+      <div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">B</div>
+            <div>
+              <div class="mod-name-text">Beard_hub</div>
+              <div class="mod-role-text">Chat Moderator</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">B</div>
+            <div>
+              <div class="mod-name-text">Bearorso</div>
+              <div class="mod-role-text">Lead Moderator</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">B</div>
+            <div>
+              <div class="mod-name-text">Blee200005</div>
+              <div class="mod-role-text">Chat Moderator</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">D</div>
+            <div>
+              <div class="mod-name-text">DogHairinmykeyboard</div>
+              <div class="mod-role-text">Head Moderator</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">H</div>
+            <div>
+              <div class="mod-name-text">hamandlizgaming</div>
+              <div class="mod-role-text">Chat Moderator</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">I</div>
+            <div>
+              <div class="mod-name-text">imbigdaddysdad</div>
+              <div class="mod-role-text">Chat Moderator</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">L</div>
+            <div>
+              <div class="mod-name-text">largecartrucker</div>
+              <div class="mod-role-text">Business Manager</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">R</div>
+            <div>
+              <div class="mod-name-text">rucky80</div>
+              <div class="mod-role-text">Business Manager</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">S</div>
+            <div>
+              <div class="mod-name-text">shinigamii420</div>
+              <div class="mod-role-text">Lead Moderator</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">T</div>
+            <div>
+              <div class="mod-name-text">technodino</div>
+              <div class="mod-role-text">Chat Moderator</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">T</div>
+            <div>
+              <div class="mod-name-text">toxicsparrowx</div>
+              <div class="mod-role-text">Chat Moderator</div>
+            </div>
+          </div>
+          
+        </div><div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">Z</div>
+            <div>
+              <div class="mod-name-text">zombie_santa_ttv</div>
+              <div class="mod-role-text">Chat Moderator</div>
+            </div>
+          </div>
+          
+        </div></div>
+    </div>
+
+    <!-- STREAMER QUICK-LOOKUP & LINK HUB SECTION -->
+    <div class="streamer-lookup-section">
+      <div class="card-header-title">
+        <div><i class="fa-solid fa-user-plus" style="color: var(--twitch-purple);"></i> Streamer Quick Links</div>
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">Type a streamer's name and choose their platform to generate a quick-access profile card linking directly to their channel.</p>
+      
+      <div class="lookup-controls">
+        <input type="text" id="streamerLookupInput" placeholder="Enter streamer username...">
+        <select id="streamerPlatformSelect">
+          <option value="twitch">Twitch</option>
+          <option value="kick">Kick</option>
+          <option value="youtube">YouTube</option>
+          <option value="tiktok">TikTok</option>
+        </select>
+        <button class="lookup-add-btn" onclick="addStreamerQuickLink()"><i class="fa-solid fa-plus"></i> Add Link Card</button>
+      </div>
+
+      <div class="streamer-profiles-grid" id="streamerProfilesGrid">
+        <!-- Default sample card -->
+        
+      <a href="https://twitch.tv/sbmel" target="_blank" rel="noopener noreferrer" class="streamer-profile-card">
+        <div class="streamer-profile-info">
+          <div class="streamer-avatar-circle">S</div>
+          <div class="streamer-text-details">
+            <span class="streamer-card-name">sbmel</span>
+            <span class="streamer-card-platform">Twitch Channel</span>
+          </div>
+        </div>
+        
+      </a><a href="https://twitch.tv/LargeCarTrucker" target="_blank" rel="noopener noreferrer" class="streamer-profile-card">
+        <div class="streamer-profile-info">
+          <div class="streamer-avatar-circle">L</div>
+          <div class="streamer-text-details">
+            <span class="streamer-card-name">LargeCarTrucker</span>
+            <span class="streamer-card-platform">Twitch Channel</span>
+          </div>
+        </div>
+        
+      </a></div>
+    </div>
+
+  </main>
 
   <!-- FOOTER -->
   <footer>
-    <a href="#" class="back-to-top"><i class="fa-solid fa-chevron-up"></i> Back to Top</a>
-    <p>© 2026 MrTelesir. All rights reserved.</p>
+    <p id="footerText">© 2026 MrTelesir. All rights reserved. Built for creators, streamers, and communities.</p>
   </footer>
 
-  <!-- LOGIN MODAL -->
-  <div class="modal-overlay" id="loginModal" style="display: none;">
-    <div class="modal">
-      <h2><i class="fa-solid fa-lock"></i> Admin Login</h2>
-      <form id="loginForm" onsubmit="handleLogin(event)">
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="adminPassword" placeholder="Enter password" required="">
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
-        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="toggleAdminModal()">Cancel</button>
-      </form>
+  <!-- ADMIN LOGIN MODAL -->
+  <div class="modal-backdrop" id="loginModal">
+    <div class="modal-box">
+      <h3>Admin Authentication</h3>
+      <p>Enter your admin password to unlock live page editing and GitHub direct publishing.</p>
+      <div class="form-group">
+        <label>Admin Password</label>
+        <input type="password" id="adminPasswordInput" class="form-input" placeholder="Enter password..." aria-autocomplete="list">
+      </div>
+      <div id="loginError" style="color: var(--live-red); font-size: 0.85rem; display: none;">Incorrect password.</div>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closeLoginModal()">Cancel</button>
+        <button class="modal-btn submit" onclick="verifyAdminLogin()">Unlock</button>
+      </div>
     </div>
   </div>
 
-  <!-- GITHUB PUBLISH MODAL -->
-  <div class="modal-overlay" id="githubModal" style="display: flex;">
-    <div class="modal">
-      <h2><i class="fa-solid fa-cloud-arrow-up"></i> Publish Live to GitHub</h2>
-      <form id="githubForm" onsubmit="handlePublishToGithub(event)">
-        <div class="form-group">
-          <label>GitHub Username</label>
-          <input type="text" id="ghUsername" value="MrTeleSir" required="">
-        </div>
-        <div class="form-group">
-          <label>Repository Name</label>
-          <input type="text" id="ghRepo" value="mrtelesir" required="">
-        </div>
-        <div class="form-group">
-          <label>Personal Access Token (PAT)</label>
-          <input type="password" id="ghToken" placeholder="ghp_..." required="">
-        </div>
-        <button type="submit" class="btn btn-publish" id="publishBtnSubmit" style="width: 100%;" disabled="">Publishing to GitHub...</button>
-        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeGithubModal()">Cancel</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- EDIT SOCIAL LINKS MODAL -->
-  <div class="modal-overlay" id="socialModal" style="display: none;">
-    <div class="modal">
-      <h2><i class="fa-solid fa-share-nodes"></i> Edit Platform Links</h2>
-      <form id="socialForm" onsubmit="handleSaveSocials(event)">
-        <div class="form-group">
-          <label><i class="fa-brands fa-twitch"></i> Twitch URL</label>
-          <input type="url" id="inputTwitch" required="">
-        </div>
-        <div class="form-group">
-          <label><i class="fa-brands fa-youtube"></i> YouTube URL</label>
-          <input type="url" id="inputYoutube" required="">
-        </div>
-        <div class="form-group">
-          <label><i class="fa-brands fa-discord"></i> Discord URL</label>
-          <input type="url" id="inputDiscord" required="">
-        </div>
-        <div class="form-group">
-          <label><i class="fa-solid fa-bolt"></i> Kick URL</label>
-          <input type="url" id="inputKick" required="">
-        </div>
-        <div class="form-group">
-          <label><i class="fa-brands fa-tiktok"></i> TikTok URL</label>
-          <input type="url" id="inputTiktok" required="">
-        </div>
-        <div class="form-group">
-          <label><i class="fa-solid fa-bag-shopping"></i> Merch URL</label>
-          <input type="url" id="inputMerch" required="">
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Save Links</button>
-        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeSocialModal()">Cancel</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ADD HARDWARE MODAL -->
-  <div class="modal-overlay" id="hardwareModal" style="display: none;">
-    <div class="modal">
-      <h2><i class="fa-solid fa-desktop"></i> Add Command Center Panel</h2>
-      <form id="hardwareForm" onsubmit="handleAddHardware(event)">
-        <div class="form-group">
-          <label>Panel Title</label>
-          <input type="text" id="newHwTitle" placeholder="e.g. Mobile IRL Backpack" required="">
-        </div>
-        <div class="form-group">
-          <label>Icon (FontAwesome Class)</label>
-          <input type="text" id="newHwIcon" placeholder="e.g. fa-solid fa-laptop" value="fa-solid fa-desktop" required="">
-        </div>
-        <div class="form-group">
-          <label>Specs (Line separated: Label | Value)</label>
-          <textarea id="newHwSpecs" rows="4" placeholder="CPU | AMD Ryzen 7
-GPU | RTX 4080" required=""></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Add Panel</button>
-        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeHardwareModal()">Cancel</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ADD PROJECT MODAL -->
-  <div class="modal-overlay" id="projectModal" style="display: none;">
-    <div class="modal">
-      <h2><i class="fa-solid fa-folder-plus"></i> New Project</h2>
-      <form id="projectForm" onsubmit="handleAddProject(event)">
-        <div class="form-group">
-          <label>Title</label>
-          <input type="text" id="newProjTitle" placeholder="e.g. Chat Overlay Bot" required="">
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea id="newProjDesc" rows="3" placeholder="Briefly describe what this project does..." required=""></textarea>
-        </div>
-        <div class="form-group">
-          <label>Tag / Tech Stack</label>
-          <input type="text" id="newProjTag" placeholder="e.g. C# / Streamer.bot" required="">
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Add Project</button>
-        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeProjectModal()">Cancel</button>
-      </form>
+  <!-- EDIT STREAM CTA BUTTON MODAL -->
+  <div class="modal-backdrop" id="ctaModal">
+    <div class="modal-box">
+      <h3>Edit Stream CTA Button</h3>
+      <div class="form-group">
+        <label>Button Label (e.g. Open Twitch)</label>
+        <input type="text" id="editCtaLabel" class="form-input" placeholder="e.g. Open Twitch">
+      </div>
+      <div class="form-group">
+        <label>Destination URL</label>
+        <input type="text" id="editCtaUrl" class="form-input" placeholder="https://twitch.tv/mrtelesir">
+      </div>
+      <div class="form-group">
+        <label>Icon CSS Class (FontAwesome)</label>
+        <input type="text" id="editCtaIcon" class="form-input" value="fa-brands fa-twitch" placeholder="e.g. fa-brands fa-twitch">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closeEditCtaModal()">Cancel</button>
+        <button class="modal-btn submit" onclick="confirmEditCta()">Save Changes</button>
+      </div>
     </div>
   </div>
 
   <!-- ADD SCHEDULE MODAL -->
-  <div class="modal-overlay" id="scheduleModal" style="display: none;">
-    <div class="modal">
-      <h2><i class="fa-solid fa-calendar-plus"></i> Add Stream Day</h2>
-      <form id="scheduleForm" onsubmit="handleAddSchedule(event)">
-        <div class="form-group">
-          <label>Day of Week</label>
-          <input type="text" id="newSchedDay" placeholder="e.g. Friday" required="">
-        </div>
-        <div class="form-group">
-          <label>Time Slot</label>
-          <input type="text" id="newSchedTime" placeholder="e.g. 8:00 PM EST" required="">
-        </div>
-        <div class="form-group">
-          <label>Stream Topic / Game</label>
-          <input type="text" id="newSchedDesc" placeholder="e.g. Hogwarts Legacy &amp; Streamer.bot Coding" required="">
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Add Day</button>
-        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeScheduleModal()">Cancel</button>
-      </form>
+  <div class="modal-backdrop" id="scheduleModal">
+    <div class="modal-box">
+      <h3>Add Stream Schedule Slot</h3>
+      <div class="form-group">
+        <label>Day / Title (e.g. Saturday Night, Tuesday)</label>
+        <input type="text" id="newScheduleDay" class="form-input" placeholder="e.g. Saturday">
+      </div>
+      <div class="form-group">
+        <label>Time / Details (e.g. 7:00 PM CST)</label>
+        <input type="text" id="newScheduleTime" class="form-input" placeholder="e.g. 7:00 PM CST">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closeAddScheduleModal()">Cancel</button>
+        <button class="modal-btn submit" onclick="confirmAddSchedule()">Add Slot</button>
+      </div>
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
-  <script>
-    let isAdmin = false;
-    let isOnAir = false;
-    const DEFAULT_PASS = "Breannas1";
+  <!-- ADD HUB / PLATFORM MODAL -->
+  <div class="modal-backdrop" id="platformModal">
+    <div class="modal-box">
+      <h3 id="platformModalTitle">Edit Connected Hub / Platform</h3>
+      <div class="form-group">
+        <label>Platform Name</label>
+        <input type="text" id="newPlatformName" class="form-input" placeholder="e.g. Twitter / X">
+      </div>
+      <div class="form-group">
+        <label>Profile URL</label>
+        <input type="text" id="newPlatformUrl" class="form-input" placeholder="https://twitter.com/mrtelesir">
+      </div>
+      <div class="form-group">
+        <label>Short Description</label>
+        <input type="text" id="newPlatformDesc" class="form-input" placeholder="Follow for live updates">
+      </div>
+      <div class="form-group">
+        <label>Icon CSS Class (FontAwesome)</label>
+        <input type="text" id="newPlatformIcon" class="form-input" value="fa-solid fa-globe" placeholder="e.g. fa-brands fa-twitter">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closeAddPlatformModal()">Cancel</button>
+        <button class="modal-btn submit" id="platformModalSubmitBtn" onclick="confirmAddPlatform()">Save Changes</button>
+      </div>
+    </div>
+  </div>
 
-    window.addEventListener('DOMContentLoaded', () => {
-      loadSavedContent();
+  <!-- ADD / EDIT MOD MODAL -->
+  <div class="modal-backdrop" id="modModal">
+    <div class="modal-box">
+      <h3 id="modModalTitle">Add Channel Moderator</h3>
+      <div class="form-group">
+        <label>Moderator Name</label>
+        <input type="text" id="newModName" class="form-input" placeholder="e.g. ModUsername">
+      </div>
+      <div class="form-group">
+        <label>Role / Badge (e.g. Head Moderator, VIP)</label>
+        <input type="text" id="newModRole" class="form-input" value="Chat Moderator" placeholder="Chat Moderator">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closeAddModModal()">Cancel</button>
+        <button class="modal-btn submit" id="modModalSubmitBtn" onclick="confirmAddMod()">Add Moderator</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GITHUB PUBLISH MODAL -->
+  <div class="modal-backdrop active" id="publishModal">
+    <div class="modal-box" style="max-width: 520px;">
+      <h3>Publish Changes to GitHub</h3>
+      <p>Push your updated `index.html` directly to your repository to update your live site instantly.</p>
       
-      const savedToken = localStorage.getItem('github_token');
-      if (savedToken) {
-        document.getElementById('ghToken').value = savedToken;
+      <div class="form-group">
+        <label>GitHub Username / Owner</label>
+        <input type="text" id="ghOwner" class="form-input" value="mrtelesir">
+      </div>
+      
+      <div class="form-group">
+        <label>Repository Name</label>
+        <input type="text" id="ghRepo" class="form-input" value="mrtelesir.github.io">
+      </div>
+      
+      <div class="form-group">
+        <label>File Path</label>
+        <input type="text" id="ghPath" class="form-input" value="index.html">
+      </div>
+
+      <div class="form-group">
+        <label>GitHub Personal Access Token (repo scope)</label>
+        <input type="password" id="ghToken" class="form-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+      </div>
+
+      <div id="publishStatus" style="font-size: 0.9rem; font-weight: 600; min-height: 20px; color: var(--accent-secondary);">Preparing site snapshot...</div>
+
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closePublishModal()">Cancel</button>
+        <button class="modal-btn submit" id="publishBtn" onclick="handleGitHubPublish(event)" disabled="">Push to GitHub 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENT SCRIPTS -->
+  <script>
+    let editingPlatformCard = null;
+    let editingModCard = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentHost = window.location.hostname || 'localhost';
+      const twitchEmbed = document.getElementById('twitchEmbed');
+      twitchEmbed.src = `https://player.twitch.tv/?channel=mrtelesir&parent=${currentHost}&muted=true`;
+
+      const savedGh = localStorage.getItem('mrTelesirGhConfig');
+      if (savedGh) {
+        try {
+          const cfg = JSON.parse(savedGh);
+          if (cfg.owner) document.getElementById('ghOwner').value = cfg.owner;
+          if (cfg.repo) document.getElementById('ghRepo').value = cfg.repo;
+          if (cfg.path) document.getElementById('ghPath').value = cfg.path;
+          if (cfg.token) document.getElementById('ghToken').value = cfg.token;
+        } catch (e) {}
       }
 
-      document.body.addEventListener('focusout', (e) => {
-        if (e.target.hasAttribute('contenteditable')) {
-          saveAllContent();
-        }
-      });
+      checkLiveStatus();
     });
 
-    function toggleAdminModal() {
-      if (isAdmin) {
-        logoutAdmin();
+    function checkLiveStatus() {
+      const liveDot = document.getElementById('liveDot');
+      const liveStatusText = document.getElementById('liveStatusText');
+      liveDot.classList.add('is-live');
+      liveStatusText.classList.add('is-live');
+      liveStatusText.innerText = 'ONLINE';
+    }
+
+    function promptAdminLogin() {
+      const modal = document.getElementById('loginModal');
+      document.getElementById('adminPasswordInput').value = '';
+      document.getElementById('loginError').style.display = 'none';
+      modal.classList.add('active');
+      document.getElementById('adminPasswordInput').focus();
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.remove('active');
+    }
+
+    function verifyAdminLogin() {
+      const pass = document.getElementById('adminPasswordInput').value;
+      if (pass === 'Breannas1') {
+        closeLoginModal();
+        enterAdminMode();
       } else {
-        const loginModal = document.getElementById('loginModal');
-        loginModal.style.display = loginModal.style.display === 'flex' ? 'none' : 'flex';
+        document.getElementById('loginError').style.display = 'block';
       }
     }
 
-    function handleLogin(e) {
-      e.preventDefault();
-      const pwd = document.getElementById('adminPassword').value;
-      if (pwd === DEFAULT_PASS) {
-        isAdmin = true;
-        document.body.classList.add('admin-mode');
-        document.getElementById('adminBtnText').innerText = 'Logout';
-        document.getElementById('addProjectBtn').style.display = 'inline-flex';
-        document.getElementById('addScheduleBtn').style.display = 'inline-flex';
-        document.getElementById('addHardwareBtn').style.display = 'inline-flex';
-        document.getElementById('loginModal').style.display = 'none';
-        document.getElementById('adminPassword').value = '';
-        setEditable(true);
-      } else {
-        alert('Incorrect password!');
-      }
+    function enterAdminMode() {
+      document.body.classList.add('admin-mode');
     }
 
-    function logoutAdmin() {
-      isAdmin = false;
+    function exitAdminMode() {
       document.body.classList.remove('admin-mode');
-      document.getElementById('adminBtnText').innerText = 'Admin Login';
-      document.getElementById('addProjectBtn').style.display = 'none';
-      document.getElementById('addScheduleBtn').style.display = 'none';
-      document.getElementById('addHardwareBtn').style.display = 'none';
-      setEditable(false);
     }
 
-    function setEditable(enabled) {
-      document.querySelectorAll('[contenteditable]').forEach(el => {
-        el.contentEditable = enabled;
-      });
+    /* STREAM CTA BUTTON EDITING */
+    function openEditCtaModal() {
+      const btn = document.getElementById('watchOnTwitchBtn');
+      const currentUrl = btn.getAttribute('href') || '';
+      const iconI = btn.querySelector('i');
+      const textNode = btn.childNodes[btn.childNodes.length - 1];
+      const currentLabel = textNode ? textNode.textContent.trim() : 'Open Twitch';
+      const currentIcon = iconI ? iconI.className : 'fa-brands fa-twitch';
+
+      document.getElementById('editCtaLabel').value = currentLabel;
+      document.getElementById('editCtaUrl').value = currentUrl;
+      document.getElementById('editCtaIcon').value = currentIcon;
+      document.getElementById('ctaModal').classList.add('active');
     }
 
-    /* DIRECT GITHUB COMMIT API LOGIC */
-    function openGithubModal() {
-      document.getElementById('githubModal').style.display = 'flex';
+    function closeEditCtaModal() {
+      document.getElementById('ctaModal').classList.remove('active');
     }
 
-    function closeGithubModal() {
-      document.getElementById('githubModal').style.display = 'none';
+    function confirmEditCta() {
+      const label = document.getElementById('editCtaLabel').value.trim() || 'Open Twitch';
+      const url = document.getElementById('editCtaUrl').value.trim() || '#';
+      const iconClass = document.getElementById('editCtaIcon').value.trim() || 'fa-brands fa-twitch';
+      const btn = document.getElementById('watchOnTwitchBtn');
+
+      btn.href = url;
+      btn.innerHTML = `<i class="${iconClass}"></i> ${label}`;
+      closeEditCtaModal();
     }
 
-    async function handlePublishToGithub(e) {
-      e.preventDefault();
-      const user = document.getElementById('ghUsername').value.trim();
-      const repo = document.getElementById('ghRepo').value.trim();
-      const token = document.getElementById('ghToken').value.trim();
-      const submitBtn = document.getElementById('publishBtnSubmit');
+    /* SCHEDULE MANAGEMENT */
+    function openAddScheduleModal() {
+      document.getElementById('newScheduleDay').value = '';
+      document.getElementById('newScheduleTime').value = '';
+      document.getElementById('scheduleModal').classList.add('active');
+    }
+    function closeAddScheduleModal() {
+      document.getElementById('scheduleModal').classList.remove('active');
+    }
+    function confirmAddSchedule() {
+      const day = document.getElementById('newScheduleDay').value.trim() || 'Custom Day';
+      const time = document.getElementById('newScheduleTime').value.trim() || 'TBD';
+      const list = document.getElementById('scheduleList');
 
-      if (!token) {
-        alert('Please provide a valid GitHub Personal Access Token.');
-        return;
+      const item = document.createElement('div');
+      item.className = 'schedule-item';
+      item.innerHTML = `
+        <div>
+          <span class="schedule-day">${day}</span>
+          <span class="schedule-time">${time}</span>
+        </div>
+        <button class="item-admin-btn danger admin-only-control" onclick="removeScheduleItem(this)"><i class="fa-solid fa-trash"></i></button>
+      `;
+      list.appendChild(item);
+      closeAddScheduleModal();
+    }
+    function removeScheduleItem(btn) {
+      btn.closest('.schedule-item').remove();
+    }
+
+    /* PLATFORMS & HUBS MANAGEMENT */
+    function openAddPlatformModal() {
+      editingPlatformCard = null;
+      document.getElementById('platformModalTitle').innerText = 'Add Connected Hub / Platform';
+      document.getElementById('platformModalSubmitBtn').innerText = 'Add Hub';
+      document.getElementById('newPlatformName').value = '';
+      document.getElementById('newPlatformUrl').value = '';
+      document.getElementById('newPlatformDesc').value = '';
+      document.getElementById('newPlatformIcon').value = 'fa-solid fa-globe';
+      document.getElementById('platformModal').classList.add('active');
+    }
+
+    function openEditPlatformModal(btn) {
+      editingPlatformCard = btn.closest('.platform-card');
+      const nameSpan = editingPlatformCard.querySelector('span');
+      const descP = editingPlatformCard.querySelector('p');
+      const iconI = editingPlatformCard.querySelector('.platform-card-top i');
+      const currentUrl = editingPlatformCard.getAttribute('href') || '';
+
+      document.getElementById('platformModalTitle').innerText = 'Edit Connected Hub / Platform';
+      document.getElementById('platformModalSubmitBtn').innerText = 'Save Changes';
+      document.getElementById('newPlatformName').value = nameSpan ? nameSpan.innerText : '';
+      document.getElementById('newPlatformUrl').value = currentUrl;
+      document.getElementById('newPlatformDesc').value = descP ? descP.innerText : '';
+      document.getElementById('newPlatformIcon').value = iconI ? iconI.className : 'fa-solid fa-globe';
+      document.getElementById('platformModal').classList.add('active');
+    }
+
+    function closeAddPlatformModal() {
+      document.getElementById('platformModal').classList.remove('active');
+      editingPlatformCard = null;
+    }
+
+    function confirmAddPlatform() {
+      const name = document.getElementById('newPlatformName').value.trim() || 'Platform';
+      const url = document.getElementById('newPlatformUrl').value.trim() || '#';
+      const desc = document.getElementById('newPlatformDesc').value.trim() || 'Community hub link';
+      const iconClass = document.getElementById('newPlatformIcon').value.trim() || 'fa-solid fa-globe';
+      const grid = document.getElementById('platformsGrid');
+
+      if (editingPlatformCard) {
+        editingPlatformCard.href = url;
+        editingPlatformCard.setAttribute('data-name', name);
+        const nameSpan = editingPlatformCard.querySelector('span');
+        const descP = editingPlatformCard.querySelector('p');
+        const iconI = editingPlatformCard.querySelector('.platform-card-top i');
+        if (nameSpan) nameSpan.innerText = name;
+        if (descP) descP.innerText = desc;
+        if (iconI) iconI.className = iconClass;
+      } else {
+        const card = document.createElement('a');
+        card.href = url;
+        card.target = '_blank';
+        card.className = 'platform-card';
+        card.setAttribute('data-name', name);
+        card.style.position = 'relative';
+        card.innerHTML = `
+          <div class="platform-card-top">
+            <i class="${iconClass}" style="color: var(--accent-secondary);"></i>
+            <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+          </div>
+          <span>${name}</span>
+          <p>${desc}</p>
+          <div class="admin-only-control" style="position: absolute; bottom: 8px; right: 8px; gap: 4px;">
+            <button class="item-admin-btn" onclick="event.preventDefault(); openEditPlatformModal(this);"><i class="fa-solid fa-pen"></i> Edit Link</button>
+            <button class="item-admin-btn danger" onclick="event.preventDefault(); removePlatformCard(this);"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+      closeAddPlatformModal();
+    }
+
+    function removePlatformCard(btn) {
+      btn.closest('.platform-card').remove();
+    }
+
+    /* MODERATOR MANAGEMENT */
+    function openAddModModal() {
+      editingModCard = null;
+      document.getElementById('modModalTitle').innerText = 'Add Channel Moderator';
+      document.getElementById('modModalSubmitBtn').innerText = 'Add Moderator';
+      document.getElementById('newModName').value = '';
+      document.getElementById('newModRole').value = 'Chat Moderator';
+      document.getElementById('modModal').classList.add('active');
+    }
+
+    function openEditModModal(btn) {
+      editingModCard = btn.closest('.mod-card');
+      const nameText = editingModCard.querySelector('.mod-name-text').innerText;
+      const roleText = editingModCard.querySelector('.mod-role-text').innerText;
+
+      document.getElementById('modModalTitle').innerText = 'Edit Channel Moderator';
+      document.getElementById('modModalSubmitBtn').innerText = 'Save Changes';
+      document.getElementById('newModName').value = nameText;
+      document.getElementById('newModRole').value = roleText;
+      document.getElementById('modModal').classList.add('active');
+    }
+
+    function closeAddModModal() {
+      document.getElementById('modModal').classList.remove('active');
+      editingModCard = null;
+    }
+
+    function confirmAddMod() {
+      const name = document.getElementById('newModName').value.trim() || 'Moderator';
+      const role = document.getElementById('newModRole').value.trim() || 'Chat Moderator';
+      const firstLetter = name.charAt(0).toUpperCase() || 'M';
+      const grid = document.getElementById('modsGrid');
+
+      if (editingModCard) {
+        editingModCard.querySelector('.mod-name-text').innerText = name;
+        editingModCard.querySelector('.mod-role-text').innerText = role;
+        editingModCard.querySelector('.mod-avatar-badge').innerText = firstLetter;
+      } else {
+        const card = document.createElement('div');
+        card.className = 'mod-card';
+        card.innerHTML = `
+          <div class="mod-info">
+            <div class="mod-avatar-badge">${firstLetter}</div>
+            <div>
+              <div class="mod-name-text">${name}</div>
+              <div class="mod-role-text">${role}</div>
+            </div>
+          </div>
+          <div class="admin-only-control" style="margin-top:0; gap: 4px;">
+            <button class="item-admin-btn" onclick="openEditModModal(this)"><i class="fa-solid fa-pen"></i> Edit</button>
+            <button class="item-admin-btn danger" onclick="removeModCard(this)"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+      closeAddModModal();
+    }
+
+    function removeModCard(btn) {
+      btn.closest('.mod-card').remove();
+    }
+
+    /* STREAMER QUICK LINK BUILDER */
+    function addStreamerQuickLink() {
+      const input = document.getElementById('streamerLookupInput');
+      const platformSelect = document.getElementById('streamerPlatformSelect');
+      const username = input.value.trim();
+      const platform = platformSelect.value;
+
+      if (!username) return;
+
+      const grid = document.getElementById('streamerProfilesGrid');
+      const firstLetter = username.charAt(0).toUpperCase();
+
+      let profileUrl = `https://twitch.tv/${username}`;
+      let platformLabel = 'Twitch Channel';
+
+      if (platform === 'kick') {
+        profileUrl = `https://kick.com/${username}`;
+        platformLabel = 'Kick Channel';
+      } else if (platform === 'youtube') {
+        profileUrl = `https://youtube.com/@${username}`;
+        platformLabel = 'YouTube Channel';
+      } else if (platform === 'tiktok') {
+        profileUrl = `https://tiktok.com/@${username}`;
+        platformLabel = 'TikTok Profile';
       }
 
-      localStorage.setItem('github_token', token);
-      submitBtn.innerText = "Publishing to GitHub...";
-      submitBtn.disabled = true;
+      const card = document.createElement('a');
+      card.href = profileUrl;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+      card.className = 'streamer-profile-card';
+
+      card.innerHTML = `
+        <div class="streamer-profile-info">
+          <div class="streamer-avatar-circle">${firstLetter}</div>
+          <div class="streamer-text-details">
+            <span class="streamer-card-name">${username}</span>
+            <span class="streamer-card-platform">${platformLabel}</span>
+          </div>
+        </div>
+        <div class="admin-only-control" style="margin-top:0;">
+          <button class="item-admin-btn danger" onclick="event.preventDefault(); this.closest('.streamer-profile-card').remove();"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      `;
+
+      grid.appendChild(card);
+      input.value = '';
+    }
+
+    document.getElementById('streamerLookupInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        addStreamerQuickLink();
+      }
+    });
+
+    function saveEditsLocally() {
+      document.body.classList.remove('admin-mode');
+      const pageMarkup = document.documentElement.outerHTML;
+      localStorage.setItem('mrTelesirSavedSnapshot', pageMarkup);
+      alert('Changes saved successfully to browser local storage!');
+      enterAdminMode();
+    }
+
+    function openPublishModal() {
+      document.getElementById('publishModal').classList.add('active');
+      document.getElementById('publishStatus').innerText = '';
+    }
+
+    function closePublishModal() {
+      document.getElementById('publishModal').classList.remove('active');
+    }
+
+    async function handleGitHubPublish(e) {
+      e.preventDefault();
+      const owner = document.getElementById('ghOwner').value.trim();
+      const repo = document.getElementById('ghRepo').value.trim();
+      const path = document.getElementById('ghPath').value.trim();
+      const token = document.getElementById('ghToken').value.trim();
+      const statusEl = document.getElementById('publishStatus');
+      const btn = document.getElementById('publishBtn');
+
+      localStorage.setItem('mrTelesirGhConfig', JSON.stringify({ owner, repo, path, token }));
+
+      statusEl.style.color = 'var(--accent-secondary)';
+      statusEl.innerText = 'Preparing site snapshot...';
+      btn.disabled = true;
 
       try {
-        setEditable(false);
-        document.body.classList.remove('admin-mode');
+        const clone = document.documentElement.cloneNode(true);
+        
+        clone.querySelector('body').classList.remove('admin-mode');
+        clone.querySelectorAll('.admin-panel-bar, .admin-toggle-trigger, .admin-only-control').forEach(el => el.remove());
 
-        const cleanHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        const htmlContent = '<!DOCTYPE html>\n' + clone.outerHTML;
+        const base64Content = btoa(encodeURIComponent(htmlContent).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+          return String.fromCharCode('0x' + p1);
+        }));
 
-        if (isAdmin) {
-          document.body.classList.add('admin-mode');
-          setEditable(true);
-        }
+        statusEl.innerText = 'Fetching current file SHA from GitHub...';
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
-        const getUrl = `https://api.github.com/repos/${user}/${repo}/contents/index.html`;
-        const getRes = await fetch(getUrl, {
+        const getRes = await fetch(apiUrl, {
+          method: 'GET',
           headers: {
             'Authorization': `token ${token}`,
             'Accept': 'application/vnd.github.v3+json'
           }
         });
 
-        if (!getRes.ok) {
-          throw new Error(`GitHub API Error (${getRes.status}): Ensure repository and token permissions are correct.`);
+        let fileSha = '';
+        if (getRes.ok) {
+          const fileData = await getRes.json();
+          fileSha = fileData.sha;
         }
 
-        const getData = await getRes.json();
-        const currentSha = getData.sha;
+        statusEl.innerText = 'Committing and pushing to GitHub...';
 
-        const updateRes = await fetch(getUrl, {
+        const putRes = await fetch(apiUrl, {
           method: 'PUT',
           headers: {
             'Authorization': `token ${token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Update website content via Admin Panel',
-            content: btoa(unescape(encodeURIComponent(cleanHtml))),
-            sha: currentSha
+            message: 'Update streamer quick links via Admin Panel [Auto-Deploy]',
+            content: base64Content,
+            sha: fileSha || undefined
           })
         });
 
-        if (updateRes.ok) {
-          alert('Success! Your changes were committed directly to GitHub. GitHub Pages will update in 1-3 minutes.');
-          closeGithubModal();
+        if (putRes.ok) {
+          statusEl.style.color = 'var(--kick-green)';
+          statusEl.innerText = 'Success! Site successfully pushed to GitHub! 🚀';
+          setTimeout(() => {
+            closePublishModal();
+          }, 2000);
         } else {
-          const errData = await updateRes.json();
-          alert(`Publish Failed: ${errData.message}`);
+          const errData = await putRes.json();
+          throw new Error(errData.message || 'Failed to push to GitHub');
         }
       } catch (err) {
-        alert(`Error publishing to GitHub: ${err.message}`);
+        statusEl.style.color = 'var(--live-red)';
+        statusEl.innerText = 'Error: ' + err.message;
       } finally {
-        submitBtn.innerText = "Commit & Push Changes";
-        submitBtn.disabled = false;
+        btn.disabled = false;
       }
-    }
-
-    /* EDIT SOCIAL LINKS */
-    function openSocialModal() {
-      document.getElementById('inputTwitch').value = document.getElementById('linkTwitch').href;
-      document.getElementById('inputYoutube').value = document.getElementById('linkYoutube').href;
-      document.getElementById('inputDiscord').value = document.getElementById('linkDiscord').href;
-      document.getElementById('inputKick').value = document.getElementById('linkKick').href;
-      document.getElementById('inputTiktok').value = document.getElementById('linkTiktok').href;
-      document.getElementById('inputMerch').value = document.getElementById('linkMerch').href;
-      document.getElementById('socialModal').style.display = 'flex';
-    }
-
-    function closeSocialModal() {
-      document.getElementById('socialModal').style.display = 'none';
-    }
-
-    function handleSaveSocials(e) {
-      e.preventDefault();
-      document.getElementById('linkTwitch').href = document.getElementById('inputTwitch').value;
-      document.getElementById('linkYoutube').href = document.getElementById('inputYoutube').value;
-      document.getElementById('linkDiscord').href = document.getElementById('inputDiscord').value;
-      document.getElementById('linkKick').href = document.getElementById('inputKick').value;
-      document.getElementById('linkTiktok').href = document.getElementById('inputTiktok').value;
-      document.getElementById('linkMerch').href = document.getElementById('inputMerch').value;
-      closeSocialModal();
-      saveAllContent();
-    }
-
-    /* ON-AIR STATUS TOGGLE */
-    function toggleOnAir() {
-      isOnAir = !isOnAir;
-      applyOnAirState(isOnAir);
-      saveAllContent();
-    }
-
-    function applyOnAirState(live) {
-      const navBadge = document.getElementById('navStatusBadge');
-      const statusText = document.getElementById('statusText');
-      const label = document.getElementById('onAirStateLabel');
-
-      if (live) {
-        document.body.classList.add('live-active');
-        navBadge.className = 'nav-status on-air';
-        statusText.innerText = 'ON AIR';
-        label.innerText = 'ON';
-      } else {
-        document.body.classList.remove('live-active');
-        navBadge.className = 'nav-status off-air';
-        statusText.innerText = 'Off Air';
-        label.innerText = 'OFF';
-      }
-    }
-
-    /* AVATAR UPLOAD */
-    function uploadAvatar(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const imgUrl = e.target.result;
-          setAvatarImage(imgUrl);
-          saveAllContent();
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function setAvatarImage(url) {
-      const img = document.getElementById('avatarImg');
-      const icon = document.getElementById('avatarIcon');
-      if (url) {
-        img.src = url;
-        img.style.display = 'block';
-        icon.style.display = 'none';
-      }
-    }
-
-    /* COMMAND CENTER / HARDWARE MANAGEMENT */
-    function openHardwareModal() {
-      document.getElementById('hardwareModal').style.display = 'flex';
-    }
-
-    function closeHardwareModal() {
-      document.getElementById('hardwareModal').style.display = 'none';
-    }
-
-    function handleAddHardware(e) {
-      e.preventDefault();
-      const title = document.getElementById('newHwTitle').value;
-      const iconClass = document.getElementById('newHwIcon').value || 'fa-solid fa-desktop';
-      const specsRaw = document.getElementById('newHwSpecs').value.split('\n');
-
-      let specsHTML = '';
-      specsRaw.forEach(line => {
-        if (line.includes('|')) {
-          const parts = line.split('|');
-          specsHTML += `<li><span contenteditable="${isAdmin}">${parts[0].trim()}</span><strong contenteditable="${isAdmin}">${parts[1].trim()}</strong></li>`;
-        }
-      });
-
-      const grid = document.getElementById('hardwareGrid');
-      const card = document.createElement('div');
-      card.className = 'card hardware-card';
-      card.innerHTML = `
-        <div class="card-icon"><i class="${iconClass}"></i></div>
-        <h3 contenteditable="${isAdmin}">${title}</h3>
-        <ul class="specs-list">
-          ${specsHTML}
-        </ul>
-        <div class="admin-controls">
-          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
-        </div>
-      `;
-
-      grid.appendChild(card);
-      closeHardwareModal();
-      document.getElementById('hardwareForm').reset();
-      saveAllContent();
-    }
-
-    /* SCHEDULE MANAGEMENT */
-    function openScheduleModal() {
-      document.getElementById('scheduleModal').style.display = 'flex';
-    }
-
-    function closeScheduleModal() {
-      document.getElementById('scheduleModal').style.display = 'none';
-    }
-
-    function handleAddSchedule(e) {
-      e.preventDefault();
-      const day = document.getElementById('newSchedDay').value;
-      const time = document.getElementById('newSchedTime').value;
-      const desc = document.getElementById('newSchedDesc').value;
-
-      const grid = document.getElementById('scheduleGrid');
-      const card = document.createElement('div');
-      card.className = 'card schedule-card';
-      card.innerHTML = `
-        <h3><i class="fa-regular fa-calendar-days"></i> <span contenteditable="${isAdmin}" class="sched-day">${day}</span></h3>
-        <p style="color: var(--accent-secondary); font-weight: 600;" contenteditable="${isAdmin}" class="sched-time">${time}</p>
-        <p contenteditable="${isAdmin}" class="sched-desc">${desc}</p>
-        <div class="admin-controls">
-          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
-        </div>
-      `;
-
-      grid.appendChild(card);
-      closeScheduleModal();
-      document.getElementById('scheduleForm').reset();
-      saveAllContent();
-    }
-
-    /* PROJECT MANAGEMENT */
-    function openProjectModal() {
-      document.getElementById('projectModal').style.display = 'flex';
-    }
-
-    function closeProjectModal() {
-      document.getElementById('projectModal').style.display = 'none';
-    }
-
-    function handleAddProject(e) {
-      e.preventDefault();
-      const title = document.getElementById('newProjTitle').value;
-      const desc = document.getElementById('newProjDesc').value;
-      const tag = document.getElementById('newProjTag').value;
-
-      const grid = document.getElementById('projectsGrid');
-      const card = document.createElement('div');
-      card.className = 'card project-card';
-      card.innerHTML = `
-        <div class="card-icon"><i class="fa-solid fa-code"></i></div>
-        <h3 contenteditable="${isAdmin}" class="proj-title">${title}</h3>
-        <p contenteditable="${isAdmin}" class="proj-desc">${desc}</p>
-        <span class="tag proj-tag" contenteditable="${isAdmin}">${tag}</span>
-        <div class="admin-controls">
-          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
-        </div>
-      `;
-
-      grid.appendChild(card);
-      closeProjectModal();
-      document.getElementById('projectForm').reset();
-      saveAllContent();
-    }
-
-    function deleteCard(button) {
-      if (confirm('Are you sure you want to delete this card?')) {
-        button.closest('.card').remove();
-        saveAllContent();
-      }
-    }
-
-    /* LOCAL STORAGE PERSISTENCE */
-    function saveAllContent() {
-      const data = {
-        isOnAir: isOnAir,
-        avatarImgSrc: document.getElementById('avatarImg').src,
-        heroTitle: document.getElementById('heroTitle').innerText,
-        heroSubtitle: document.getElementById('heroSubtitle').innerText,
-        aboutBio: document.getElementById('aboutBio').innerText,
-        socials: {
-          twitch: document.getElementById('linkTwitch').href,
-          youtube: document.getElementById('linkYoutube').href,
-          discord: document.getElementById('linkDiscord').href,
-          kick: document.getElementById('linkKick').href,
-          tiktok: document.getElementById('linkTiktok').href,
-          merch: document.getElementById('linkMerch').href
-        },
-        scheduleHTML: document.getElementById('scheduleGrid').innerHTML,
-        hardwareHTML: document.getElementById('hardwareGrid').innerHTML,
-        projectsHTML: document.getElementById('projectsGrid').innerHTML
-      };
-      localStorage.setItem('mrTelesirFullData', JSON.stringify(data));
-    }
-
-    function loadSavedContent() {
-      const saved = localStorage.getItem('mrTelesirFullData');
-      if (!saved) return;
-
-      const data = JSON.parse(saved);
-      isOnAir = data.isOnAir || false;
-      applyOnAirState(isOnAir);
-
-      if (data.avatarImgSrc && data.avatarImgSrc.length > 10) {
-        setAvatarImage(data.avatarImgSrc);
-      }
-      if (data.heroTitle) document.getElementById('heroTitle').innerText = data.heroTitle;
-      if (data.heroSubtitle) document.getElementById('heroSubtitle').innerText = data.heroSubtitle;
-      if (data.aboutBio) document.getElementById('aboutBio').innerText = data.aboutBio;
-
-      if (data.socials) {
-        if (data.socials.twitch) document.getElementById('linkTwitch').href = data.socials.twitch;
-        if (data.socials.youtube) document.getElementById('linkYoutube').href = data.socials.youtube;
-        if (data.socials.discord) document.getElementById('linkDiscord').href = data.socials.discord;
-        if (data.socials.kick) document.getElementById('linkKick').href = data.socials.kick;
-        if (data.socials.tiktok) document.getElementById('linkTiktok').href = data.socials.tiktok;
-        if (data.socials.merch) document.getElementById('linkMerch').href = data.socials.merch;
-      }
-
-      if (data.scheduleHTML) document.getElementById('scheduleGrid').innerHTML = data.scheduleHTML;
-      if (data.hardwareHTML) document.getElementById('hardwareGrid').innerHTML = data.hardwareHTML;
-      if (data.projectsHTML) document.getElementById('projectsGrid').innerHTML = data.projectsHTML;
     }
   </script>
 
