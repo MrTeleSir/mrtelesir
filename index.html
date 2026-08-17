@@ -715,7 +715,7 @@
   </div>
 
   <!-- EDIT SOCIAL LINKS MODAL -->
-  <div class="modal-overlay" id="socialModal">
+  <div class="modal-overlay" id="socialModal" style="display: none;">
     <div class="modal">
       <h2><i class="fa-solid fa-share-nodes"></i> Edit Platform Links</h2>
       <form id="socialForm" onsubmit="handleSaveSocials(event)">
@@ -750,7 +750,7 @@
   </div>
 
   <!-- ADD HARDWARE MODAL -->
-  <div class="modal-overlay" id="hardwareModal">
+  <div class="modal-overlay" id="hardwareModal" style="display: none;">
     <div class="modal">
       <h2><i class="fa-solid fa-desktop"></i> Add Command Center Panel</h2>
       <form id="hardwareForm" onsubmit="handleAddHardware(event)">
@@ -774,7 +774,7 @@ GPU | RTX 4080" required=""></textarea>
   </div>
 
   <!-- ADD PROJECT MODAL -->
-  <div class="modal-overlay" id="projectModal">
+  <div class="modal-overlay" id="projectModal" style="display: none;">
     <div class="modal">
       <h2><i class="fa-solid fa-folder-plus"></i> New Project</h2>
       <form id="projectForm" onsubmit="handleAddProject(event)">
@@ -797,7 +797,7 @@ GPU | RTX 4080" required=""></textarea>
   </div>
 
   <!-- ADD SCHEDULE MODAL -->
-  <div class="modal-overlay" id="scheduleModal">
+  <div class="modal-overlay" id="scheduleModal" style="display: none;">
     <div class="modal">
       <h2><i class="fa-solid fa-calendar-plus"></i> Add Stream Day</h2>
       <form id="scheduleForm" onsubmit="handleAddSchedule(event)">
@@ -844,7 +844,8 @@ GPU | RTX 4080" required=""></textarea>
       if (isAdmin) {
         logoutAdmin();
       } else {
-        document.getElementById('loginModal').style.display = 'flex';
+        const loginModal = document.getElementById('loginModal');
+        loginModal.style.display = loginModal.style.display === 'flex' ? 'none' : 'flex';
       }
     }
 
