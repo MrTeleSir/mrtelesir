@@ -260,6 +260,17 @@
       color: #000;
     }
 
+<<<<<<< HEAD
+=======
+    .btn-publish {
+      background: #238636;
+      color: #fff;
+      border: none;
+      font-weight: bold;
+    }
+    .btn-publish:hover { background: #2ea043; }
+
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
     /* SECTIONS */
     section {
       padding: 5rem 2rem;
@@ -482,6 +493,7 @@
       <i class="fa-solid fa-user-gear"></i> ADMIN MODE ACTIVE — Click text to edit
     </div>
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+<<<<<<< HEAD
       <!-- EDIT SOCIAL LINKS -->
       <button class="btn btn-admin" onclick="openSocialModal()">
         <i class="fa-solid fa-link"></i> Edit Social Links
@@ -491,10 +503,25 @@
         <i class="fa-solid fa-tower-broadcast"></i> Toggle On-Air: <span id="onAirStateLabel">OFF</span>
       </button>
       <!-- AVATAR UPLOAD -->
+=======
+      <button class="btn btn-admin" onclick="openSocialModal()">
+        <i class="fa-solid fa-link"></i> Edit Social Links
+      </button>
+      <button class="btn btn-admin" onclick="toggleOnAir()">
+        <i class="fa-solid fa-tower-broadcast"></i> Toggle On-Air: <span id="onAirStateLabel">OFF</span>
+      </button>
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
       <label class="btn btn-admin" style="cursor: pointer;">
         <i class="fa-solid fa-image"></i> Change Picture
         <input type="file" id="avatarUpload" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
       </label>
+<<<<<<< HEAD
+=======
+      <!-- PUBLISH TO GITHUB BUTTON -->
+      <button class="btn btn-publish" id="publishBtn" onclick="pushToGitHub()">
+        <i class="fa-solid fa-cloud-arrow-up"></i> Publish to Website
+      </button>
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
     </div>
   </div>
 
@@ -672,10 +699,32 @@
       <h2><i class="fa-solid fa-lock"></i> Admin Login</h2>
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
+<<<<<<< HEAD
           <label>Password</label>
           <input type="password" id="adminPassword" placeholder="Default: admin" required />
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+=======
+          <label>GitHub Personal Access Token (PAT)</label>
+          <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" required />
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
+            Token requires 'repo' permissions to push edits live.
+          </p>
+        </div>
+        <div class="form-group">
+          <label>GitHub Username / Owner</label>
+          <input type="text" id="ghOwner" placeholder="e.g. MrTelesir" required />
+        </div>
+        <div class="form-group">
+          <label>Repository Name</label>
+          <input type="text" id="ghRepo" placeholder="e.g. my-website" required />
+        </div>
+        <div class="form-group">
+          <label>Branch Name</label>
+          <input type="text" id="ghBranch" value="main" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In & Connect</button>
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
         <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="toggleAdminModal()">Cancel</button>
       </form>
     </div>
@@ -686,6 +735,7 @@
     <div class="modal">
       <h2><i class="fa-solid fa-share-nodes"></i> Edit Platform Links</h2>
       <form id="socialForm" onsubmit="handleSaveSocials(event)">
+<<<<<<< HEAD
         <div class="form-group">
           <label><i class="fa-brands fa-twitch"></i> Twitch URL</label>
           <input type="url" id="inputTwitch" required />
@@ -710,6 +760,14 @@
           <label><i class="fa-solid fa-bag-shopping"></i> Merch URL</label>
           <input type="url" id="inputMerch" required />
         </div>
+=======
+        <div class="form-group"><label><i class="fa-brands fa-twitch"></i> Twitch URL</label><input type="url" id="inputTwitch" required /></div>
+        <div class="form-group"><label><i class="fa-brands fa-youtube"></i> YouTube URL</label><input type="url" id="inputYoutube" required /></div>
+        <div class="form-group"><label><i class="fa-brands fa-discord"></i> Discord URL</label><input type="url" id="inputDiscord" required /></div>
+        <div class="form-group"><label><i class="fa-solid fa-bolt"></i> Kick URL</label><input type="url" id="inputKick" required /></div>
+        <div class="form-group"><label><i class="fa-brands fa-tiktok"></i> TikTok URL</label><input type="url" id="inputTiktok" required /></div>
+        <div class="form-group"><label><i class="fa-solid fa-bag-shopping"></i> Merch URL</label><input type="url" id="inputMerch" required /></div>
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
         <button type="submit" class="btn btn-primary" style="width: 100%;">Save Links</button>
         <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeSocialModal()">Cancel</button>
       </form>
@@ -721,6 +779,7 @@
     <div class="modal">
       <h2><i class="fa-solid fa-desktop"></i> Add Command Center Panel</h2>
       <form id="hardwareForm" onsubmit="handleAddHardware(event)">
+<<<<<<< HEAD
         <div class="form-group">
           <label>Panel Title</label>
           <input type="text" id="newHwTitle" placeholder="e.g. Mobile IRL Backpack" required />
@@ -733,6 +792,11 @@
           <label>Specs (Line separated: Label | Value)</label>
           <textarea id="newHwSpecs" rows="4" placeholder="CPU | AMD Ryzen 7&#10;GPU | RTX 4080" required></textarea>
         </div>
+=======
+        <div class="form-group"><label>Panel Title</label><input type="text" id="newHwTitle" placeholder="e.g. Mobile IRL Backpack" required /></div>
+        <div class="form-group"><label>Icon (FontAwesome Class)</label><input type="text" id="newHwIcon" placeholder="e.g. fa-solid fa-laptop" value="fa-solid fa-desktop" required /></div>
+        <div class="form-group"><label>Specs (Line separated: Label | Value)</label><textarea id="newHwSpecs" rows="4" placeholder="CPU | AMD Ryzen 7&#10;GPU | RTX 4080" required></textarea></div>
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
         <button type="submit" class="btn btn-primary" style="width: 100%;">Add Panel</button>
         <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeHardwareModal()">Cancel</button>
       </form>
@@ -744,6 +808,7 @@
     <div class="modal">
       <h2><i class="fa-solid fa-folder-plus"></i> New Project</h2>
       <form id="projectForm" onsubmit="handleAddProject(event)">
+<<<<<<< HEAD
         <div class="form-group">
           <label>Title</label>
           <input type="text" id="newProjTitle" placeholder="e.g. Chat Overlay Bot" required />
@@ -756,6 +821,11 @@
           <label>Tag / Tech Stack</label>
           <input type="text" id="newProjTag" placeholder="e.g. C# / Streamer.bot" required />
         </div>
+=======
+        <div class="form-group"><label>Title</label><input type="text" id="newProjTitle" placeholder="e.g. Chat Overlay Bot" required /></div>
+        <div class="form-group"><label>Description</label><textarea id="newProjDesc" rows="3" placeholder="Briefly describe what this project does..." required></textarea></div>
+        <div class="form-group"><label>Tag / Tech Stack</label><input type="text" id="newProjTag" placeholder="e.g. C# / Streamer.bot" required /></div>
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
         <button type="submit" class="btn btn-primary" style="width: 100%;">Add Project</button>
         <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeProjectModal()">Cancel</button>
       </form>
@@ -767,6 +837,7 @@
     <div class="modal">
       <h2><i class="fa-solid fa-calendar-plus"></i> Add Stream Day</h2>
       <form id="scheduleForm" onsubmit="handleAddSchedule(event)">
+<<<<<<< HEAD
         <div class="form-group">
           <label>Day of Week</label>
           <input type="text" id="newSchedDay" placeholder="e.g. Friday" required />
@@ -779,6 +850,11 @@
           <label>Stream Topic / Game</label>
           <input type="text" id="newSchedDesc" placeholder="e.g. Hogwarts Legacy & Streamer.bot Coding" required />
         </div>
+=======
+        <div class="form-group"><label>Day of Week</label><input type="text" id="newSchedDay" placeholder="e.g. Friday" required /></div>
+        <div class="form-group"><label>Time Slot</label><input type="text" id="newSchedTime" placeholder="e.g. 8:00 PM EST" required /></div>
+        <div class="form-group"><label>Stream Topic / Game</label><input type="text" id="newSchedDesc" placeholder="e.g. Hogwarts Legacy & Coding" required /></div>
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
         <button type="submit" class="btn btn-primary" style="width: 100%;">Add Day</button>
         <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeScheduleModal()">Cancel</button>
       </form>
@@ -789,6 +865,7 @@
   <script>
     let isAdmin = false;
     let isOnAir = false;
+<<<<<<< HEAD
     const DEFAULT_PASS = "admin";
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -801,6 +878,8 @@
         }
       });
     });
+=======
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
 
     function toggleAdminModal() {
       if (isAdmin) {
@@ -812,6 +891,7 @@
 
     function handleLogin(e) {
       e.preventDefault();
+<<<<<<< HEAD
       const pwd = document.getElementById('adminPassword').value;
       if (pwd === DEFAULT_PASS) {
         isAdmin = true;
@@ -826,6 +906,16 @@
       } else {
         alert('Incorrect password! (Default is "admin")');
       }
+=======
+      isAdmin = true;
+      document.body.classList.add('admin-mode');
+      document.getElementById('adminBtnText').innerText = 'Logout';
+      document.getElementById('addProjectBtn').style.display = 'inline-flex';
+      document.getElementById('addScheduleBtn').style.display = 'inline-flex';
+      document.getElementById('addHardwareBtn').style.display = 'inline-flex';
+      document.getElementById('loginModal').style.display = 'none';
+      setEditable(true);
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
     }
 
     function logoutAdmin() {
@@ -868,14 +958,20 @@
       document.getElementById('linkTiktok').href = document.getElementById('inputTiktok').value;
       document.getElementById('linkMerch').href = document.getElementById('inputMerch').value;
       closeSocialModal();
+<<<<<<< HEAD
       saveAllContent();
+=======
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
     }
 
     /* ON-AIR STATUS TOGGLE */
     function toggleOnAir() {
       isOnAir = !isOnAir;
       applyOnAirState(isOnAir);
+<<<<<<< HEAD
       saveAllContent();
+=======
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
     }
 
     function applyOnAirState(live) {
@@ -902,9 +998,13 @@
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
+<<<<<<< HEAD
           const imgUrl = e.target.result;
           setAvatarImage(imgUrl);
           saveAllContent();
+=======
+          setAvatarImage(e.target.result);
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
         };
         reader.readAsDataURL(file);
       }
@@ -921,6 +1021,7 @@
     }
 
     /* COMMAND CENTER / HARDWARE MANAGEMENT */
+<<<<<<< HEAD
     function openHardwareModal() {
       document.getElementById('hardwareModal').style.display = 'flex';
     }
@@ -928,6 +1029,10 @@
     function closeHardwareModal() {
       document.getElementById('hardwareModal').style.display = 'none';
     }
+=======
+    function openHardwareModal() { document.getElementById('hardwareModal').style.display = 'flex'; }
+    function closeHardwareModal() { document.getElementById('hardwareModal').style.display = 'none'; }
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
 
     function handleAddHardware(e) {
       e.preventDefault();
@@ -949,13 +1054,18 @@
       card.innerHTML = `
         <div class="card-icon"><i class="${iconClass}"></i></div>
         <h3 contenteditable="${isAdmin}">${title}</h3>
+<<<<<<< HEAD
         <ul class="specs-list">
           ${specsHTML}
         </ul>
+=======
+        <ul class="specs-list">${specsHTML}</ul>
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
         <div class="admin-controls">
           <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
         </div>
       `;
+<<<<<<< HEAD
 
       grid.appendChild(card);
       closeHardwareModal();
@@ -971,6 +1081,16 @@
     function closeScheduleModal() {
       document.getElementById('scheduleModal').style.display = 'none';
     }
+=======
+      grid.appendChild(card);
+      closeHardwareModal();
+      document.getElementById('hardwareForm').reset();
+    }
+
+    /* SCHEDULE MANAGEMENT */
+    function openScheduleModal() { document.getElementById('scheduleModal').style.display = 'flex'; }
+    function closeScheduleModal() { document.getElementById('scheduleModal').style.display = 'none'; }
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
 
     function handleAddSchedule(e) {
       e.preventDefault();
@@ -989,6 +1109,7 @@
           <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
         </div>
       `;
+<<<<<<< HEAD
 
       grid.appendChild(card);
       closeScheduleModal();
@@ -1004,6 +1125,16 @@
     function closeProjectModal() {
       document.getElementById('projectModal').style.display = 'none';
     }
+=======
+      grid.appendChild(card);
+      closeScheduleModal();
+      document.getElementById('scheduleForm').reset();
+    }
+
+    /* PROJECT MANAGEMENT */
+    function openProjectModal() { document.getElementById('projectModal').style.display = 'flex'; }
+    function closeProjectModal() { document.getElementById('projectModal').style.display = 'none'; }
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
 
     function handleAddProject(e) {
       e.preventDefault();
@@ -1023,16 +1154,23 @@
           <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
         </div>
       `;
+<<<<<<< HEAD
 
       grid.appendChild(card);
       closeProjectModal();
       document.getElementById('projectForm').reset();
       saveAllContent();
+=======
+      grid.appendChild(card);
+      closeProjectModal();
+      document.getElementById('projectForm').reset();
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
     }
 
     function deleteCard(button) {
       if (confirm('Are you sure you want to delete this card?')) {
         button.closest('.card').remove();
+<<<<<<< HEAD
         saveAllContent();
       }
     }
@@ -1091,3 +1229,81 @@
   </script>
 </body>
 </html>
+=======
+      }
+    }
+
+    /* GITHUB API DIRECT PUSH LOGIC */
+    async function pushToGitHub() {
+      const token = document.getElementById('ghToken').value.trim();
+      const owner = document.getElementById('ghOwner').value.trim();
+      const repo = document.getElementById('ghRepo').value.trim();
+      const branch = document.getElementById('ghBranch').value.trim();
+      const publishBtn = document.getElementById('publishBtn');
+
+      if (!token || !owner || !repo || !branch) {
+        alert('Missing GitHub details. Please re-open Admin Login and fill in your Personal Access Token, Owner, Repo, and Branch.');
+        return;
+      }
+
+      publishBtn.disabled = true;
+      publishBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publishing...';
+
+      try {
+        // Temporarily turn off edit mode before snapshotting clean HTML
+        logoutAdmin();
+
+        // Get full source code of the document
+        const cleanHTML = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+
+        // 1. Fetch file SHA from GitHub
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/index.html?ref=${branch}`;
+        const getRes = await fetch(apiUrl, {
+          headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+        });
+
+        let sha = null;
+        if (getRes.ok) {
+          const fileData = await getRes.json();
+          sha = fileData.sha;
+        }
+
+        // 2. Safe Base64 encoding for UTF-8 content
+        const encodedContent = btoa(unescape(encodeURIComponent(cleanHTML)));
+
+        // 3. Commit payload
+        const payload = {
+          message: 'Update website content via Admin Panel',
+          content: encodedContent,
+          branch: branch
+        };
+        if (sha) payload.sha = sha;
+
+        // 4. PUT request to update GitHub index.html
+        const putRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/index.html`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (putRes.ok) {
+          alert('Success! Changes published directly to GitHub. It will take 1-2 minutes for GitHub Pages to deploy your live site.');
+        } else {
+          const errData = await putRes.json();
+          alert(`Failed to publish: ${errData.message}`);
+        }
+      } catch (err) {
+        alert(`Error: ${err.message}`);
+      } finally {
+        publishBtn.disabled = false;
+        publishBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Publish to Website';
+      }
+    }
+  </script>
+</body>
+</html>
+>>>>>>> bfa3c01299798bc5f845b358030461ff2ed33859
