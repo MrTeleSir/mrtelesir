@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MrTelesir | Official Hub</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* RESET & VARS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg-dark: #0b0e14;
+      --card-bg: #151922;
+      --accent-color: #9146FF; /* Twitch purple */
+      --accent-secondary: #00f2fe;
+      --text-main: #f0f2f5;
+      --text-muted: #9ba1b0;
+      --border-color: #242b3b;
+      --font-title: 'Orbitron', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --admin-color: #ff9900;
+      --live-red: #ff4d4d;
+      --off-gray: #718096;
+      --kick-green: #53fc18;
+      --tiktok-pink: #ff0050;
+      --merch-yellow: #ffb703;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* NAVIGATION */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(11, 14, 20, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-status {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-status.off-air {
+      background: rgba(113, 128, 150, 0.2);
+      color: var(--off-gray);
+      border: 1px solid var(--off-gray);
+    }
+
+    .nav-status.on-air {
+      background: rgba(255, 77, 77, 0.2);
+      color: var(--live-red);
+      border: 1px solid var(--live-red);
+      box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-secondary);
+    }
+
+    /* HERO SECTION */
+    header.hero {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      background: radial-gradient(circle at center, rgba(145, 70, 255, 0.15) 0%, rgba(11, 14, 20, 1) 70%);
+      position: relative;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-avatar {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      border: 4px solid var(--accent-secondary);
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
+      background: #1e2533;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      color: var(--accent-secondary);
+      object-fit: cover;
+      overflow: hidden;
+    }
+
+    .hero-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .on-air-badge {
+      position: absolute;
+      bottom: -5px;
+      background: var(--live-red);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 2px solid var(--bg-dark);
+      display: none;
+    }
+
+    body.live-active .on-air-badge {
+      display: block;
+    }
+
+    .hero h1 {
+      font-family: var(--font-title);
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 2px;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    .social-buttons {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 800px;
+    }
+
+    .btn {
+      padding: 0.8rem 1.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      font-size: 0.95rem;
+    }
+
+    .btn-twitch { background: var(--accent-color); color: #fff; }
+    .btn-twitch:hover { background: #772ce8; box-shadow: 0 0 15px rgba(145, 70, 255, 0.5); }
+
+    .btn-youtube { background: #ff0000; color: #fff; }
+    .btn-youtube:hover { background: #cc0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
+
+    .btn-discord { background: #5865F2; color: #fff; }
+    .btn-discord:hover { background: #4752c4; box-shadow: 0 0 15px rgba(88, 101, 242, 0.5); }
+
+    .btn-kick { background: var(--kick-green); color: #000; font-weight: 800; }
+    .btn-kick:hover { background: #42cb12; box-shadow: 0 0 15px rgba(83, 252, 24, 0.5); }
+
+    .btn-tiktok { background: #000; color: #fff; border: 1px solid var(--tiktok-pink); }
+    .btn-tiktok:hover { background: var(--tiktok-pink); box-shadow: 0 0 15px rgba(255, 0, 80, 0.5); }
+
+    .btn-merch { background: var(--merch-yellow); color: #000; font-weight: 700; }
+    .btn-merch:hover { background: #e0a200; box-shadow: 0 0 15px rgba(255, 183, 3, 0.5); }
+
+    .btn-primary { background: var(--accent-color); color: #fff; }
+    .btn-outline { border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-main); }
+    .btn-outline:hover { border-color: var(--accent-secondary); color: var(--accent-secondary); }
+
+    .btn-admin {
+      background: transparent;
+      border: 1px solid var(--admin-color);
+      color: var(--admin-color);
+      padding: 0.4rem 0.9rem;
+      font-size: 0.85rem;
+    }
+
+    .btn-admin:hover {
+      background: var(--admin-color);
+      color: #000;
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      transition: transform 0.3s, border-color 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-color);
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      color: var(--accent-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-family: var(--font-title);
+      margin-bottom: 0.75rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* SPECS LIST */
+    .specs-list {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .specs-list li {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding: 0.4rem 0;
+      border-bottom: 1px dotted var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .specs-list li strong {
+      color: var(--text-main);
+    }
+
+    .project-card {
+      border-left: 4px solid var(--accent-secondary);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      background: rgba(0, 242, 254, 0.1);
+      color: var(--accent-secondary);
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+
+    /* ADMIN CONTROLS & HIGHLIGHTING */
+    .admin-controls {
+      display: none;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--admin-color);
+    }
+
+    body.admin-mode .admin-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    body.admin-mode [contenteditable="true"] {
+      outline: 2px dashed var(--admin-color);
+      border-radius: 4px;
+      padding: 2px 4px;
+      background: rgba(255, 153, 0, 0.05);
+    }
+
+    .admin-panel-bar {
+      display: none;
+      background: #11151c;
+      border-bottom: 2px solid var(--admin-color);
+      padding: 0.75rem 2rem;
+      position: fixed;
+      top: 65px;
+      width: 100%;
+      z-index: 999;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    body.admin-mode .admin-panel-bar {
+      display: flex;
+    }
+
+    /* MODALS */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 3000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal h2 {
+      font-family: var(--font-title);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      background: #0b0e14;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: #fff;
+      font-family: inherit;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-secondary);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem 5rem;
+      border-top: 1px solid var(--border-color);
+      background: #080a0e;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .back-to-top {
+      display: block;
+      margin-bottom: 1.5rem;
+      color: var(--accent-secondary);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2rem; }
+      .admin-panel-bar { flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ADMIN QUICK CONTROL BAR -->
+  <div class="admin-panel-bar" id="adminPanelBar">
+    <div style="color: var(--admin-color); font-weight: bold; font-size: 0.9rem;">
+      <i class="fa-solid fa-user-gear"></i> ADMIN MODE ACTIVE — Click text to edit
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <!-- EDIT SOCIAL LINKS -->
+      <button class="btn btn-admin" onclick="openSocialModal()">
+        <i class="fa-solid fa-link"></i> Edit Social Links
+      </button>
+      <!-- ON AIR TOGGLE -->
+      <button class="btn btn-admin" onclick="toggleOnAir()">
+        <i class="fa-solid fa-tower-broadcast"></i> Toggle On-Air: <span id="onAirStateLabel">OFF</span>
+      </button>
+      <!-- AVATAR UPLOAD -->
+      <label class="btn btn-admin" style="cursor: pointer;">
+        <i class="fa-solid fa-image"></i> Change Picture
+        <input type="file" id="avatarUpload" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
+      </label>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-brand">
+      MRTELESIR
+      <span class="nav-status off-air" id="navStatusBadge">
+        <i class="fa-solid fa-circle"></i> <span id="statusText">Off Air</span>
+      </span>
+    </div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#schedule">Schedule</a></li>
+        <li><a href="#hardware">Hardware</a></li>
+        <li><a href="#projects">Projects</a></li>
+      </ul>
+      <button class="btn btn-admin" id="adminBtn" onclick="toggleAdminModal()">
+        <i class="fa-solid fa-user-gear"></i> <span id="adminBtnText">Admin Login</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="avatar-wrapper">
+      <div class="hero-avatar" id="avatarContainer">
+        <i class="fa-solid fa-gamepad" id="avatarIcon"></i>
+        <img id="avatarImg" src="" alt="Profile Picture" style="display: none;" />
+      </div>
+      <span class="on-air-badge">LIVE ON AIR</span>
+    </div>
+
+    <h1 id="heroTitle" contenteditable="false">MRTELESIR</h1>
+    <p id="heroSubtitle" contenteditable="false">Streamer, Tech Enthusiast & Bot Developer</p>
+    
+    <!-- SOCIAL LINKS -->
+    <div class="social-buttons">
+      <a href="https://twitch.tv" target="_blank" id="linkTwitch" class="btn btn-twitch"><i class="fa-brands fa-twitch"></i> Twitch</a>
+      <a href="https://youtube.com" target="_blank" id="linkYoutube" class="btn btn-youtube"><i class="fa-brands fa-youtube"></i> YouTube</a>
+      <a href="https://discord.gg" target="_blank" id="linkDiscord" class="btn btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
+      <a href="https://kick.com" target="_blank" id="linkKick" class="btn btn-kick"><i class="fa-solid fa-bolt"></i> Kick</a>
+      <a href="https://tiktok.com" target="_blank" id="linkTiktok" class="btn btn-tiktok"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+      <a href="https://mrtelesir-shop.fourthwall.com" target="_blank" id="linkMerch" class="btn btn-merch"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
+    </div>
+  </header>
+
+  <!-- ABOUT SECTION -->
+  <section id="about">
+    <h2 class="section-title" contenteditable="false" id="aboutTitle">About MrTelesir</h2>
+    <div class="grid">
+      <div class="card" style="grid-column: span 2;">
+        <div class="card-icon"><i class="fa-solid fa-user-ninja"></i></div>
+        <h3 contenteditable="false" class="editable-header">The Gamer & Builder</h3>
+        <p id="aboutBio" contenteditable="false">Welcome to the stream hub! I'm MrTelesir—a passionate gamer, tech enthusiast, and stream automation developer. From hardcore survival titles to stream automation with custom bots and C# integrations, this channel is built on gaming, community, and tech experimentation.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-terminal"></i></div>
+        <h3 contenteditable="false" class="editable-header">Code & Automation</h3>
+        <p contenteditable="false" class="editable-p">Specializing in custom Streamer.bot commands, interactive chat games, and overlay setups to keep every broadcast engageable.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE SECTION -->
+  <section id="schedule">
+    <div class="section-header-wrap">
+      <h2 class="section-title">Stream Schedule</h2>
+      <button class="btn btn-admin" id="addScheduleBtn" style="display:none;" onclick="openScheduleModal()">
+        <i class="fa-solid fa-calendar-plus"></i> Add Stream Day
+      </button>
+    </div>
+    <div class="grid" id="scheduleGrid">
+      <div class="card schedule-card">
+        <h3><i class="fa-regular fa-calendar-days"></i> <span contenteditable="false" class="sched-day">Tuesday</span></h3>
+        <p style="color: var(--accent-secondary); font-weight: 600;" contenteditable="false" class="sched-time">7:00 PM EST</p>
+        <p contenteditable="false" class="sched-desc">Variety Gaming & Chill</p>
+        <div class="admin-controls">
+          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      </div>
+
+      <div class="card schedule-card">
+        <h3><i class="fa-regular fa-calendar-days"></i> <span contenteditable="false" class="sched-day">Thursday</span></h3>
+        <p style="color: var(--accent-secondary); font-weight: 600;" contenteditable="false" class="sched-time">7:00 PM EST</p>
+        <p contenteditable="false" class="sched-desc">Bot Building & Interactive Tech</p>
+        <div class="admin-controls">
+          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARDWARE / COMMAND CENTER -->
+  <section id="hardware">
+    <div class="section-header-wrap">
+      <h2 class="section-title">Command Center</h2>
+      <button class="btn btn-admin" id="addHardwareBtn" style="display:none;" onclick="openHardwareModal()">
+        <i class="fa-solid fa-desktop"></i> Add Spec Panel
+      </button>
+    </div>
+    <div class="grid" id="hardwareGrid">
+      <div class="card hardware-card">
+        <div class="card-icon"><i class="fa-solid fa-desktop"></i></div>
+        <h3 contenteditable="false">Gaming Rig</h3>
+        <ul class="specs-list">
+          <li><span contenteditable="false">CPU</span><strong contenteditable="false">AMD Ryzen 7 7800X3D</strong></li>
+          <li><span contenteditable="false">GPU</span><strong contenteditable="false">NVIDIA RTX 4080 Super</strong></li>
+          <li><span contenteditable="false">RAM</span><strong contenteditable="false">32GB DDR5-6000</strong></li>
+        </ul>
+        <div class="admin-controls">
+          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      </div>
+
+      <div class="card hardware-card">
+        <div class="card-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+        <h3 contenteditable="false">Streaming Rig</h3>
+        <ul class="specs-list">
+          <li><span contenteditable="false">CPU</span><strong contenteditable="false">AMD Ryzen 9 5900X</strong></li>
+          <li><span contenteditable="false">GPU</span><strong contenteditable="false">NVIDIA RTX 3060 Ti</strong></li>
+          <li><span contenteditable="false">Encoder</span><strong contenteditable="false">NVENC AV1/H.264</strong></li>
+        </ul>
+        <div class="admin-controls">
+          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      </div>
+
+      <div class="card hardware-card">
+        <div class="card-icon"><i class="fa-solid fa-headset"></i></div>
+        <h3 contenteditable="false">Peripherals</h3>
+        <ul class="specs-list">
+          <li><span contenteditable="false">Mic</span><strong contenteditable="false">Shure SM7B</strong></li>
+          <li><span contenteditable="false">Interface</span><strong contenteditable="false">TC Helicon GoXLR</strong></li>
+          <li><span contenteditable="false">Control</span><strong contenteditable="false">Elgato Stream Deck XL</strong></li>
+        </ul>
+        <div class="admin-controls">
+          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section id="projects">
+    <div class="section-header-wrap">
+      <h2 class="section-title">Projects & Extensions</h2>
+      <button class="btn btn-admin" id="addProjectBtn" style="display:none;" onclick="openProjectModal()">
+        <i class="fa-solid fa-plus"></i> Add Project
+      </button>
+    </div>
+    <div class="grid" id="projectsGrid">
+      <div class="card project-card">
+        <div class="card-icon"><i class="fa-solid fa-hat-wizard"></i></div>
+        <h3 contenteditable="false" class="proj-title">Hogwarts House Sorting Hat</h3>
+        <p contenteditable="false" class="proj-desc">Custom Streamer.bot integration that dynamically sorts chatters into Hogwarts Houses with custom C# logic, chat messages, and overlay effects.</p>
+        <span class="tag proj-tag" contenteditable="false">Streamer.bot / C#</span>
+        <div class="admin-controls">
+          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="back-to-top"><i class="fa-solid fa-chevron-up"></i> Back to Top</a>
+    <p>&copy; 2026 MrTelesir. All rights reserved.</p>
+  </footer>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal">
+      <h2><i class="fa-solid fa-lock"></i> Admin Login</h2>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="adminPassword" placeholder="Default: admin" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="toggleAdminModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT SOCIAL LINKS MODAL -->
+  <div class="modal-overlay" id="socialModal">
+    <div class="modal">
+      <h2><i class="fa-solid fa-share-nodes"></i> Edit Platform Links</h2>
+      <form id="socialForm" onsubmit="handleSaveSocials(event)">
+        <div class="form-group">
+          <label><i class="fa-brands fa-twitch"></i> Twitch URL</label>
+          <input type="url" id="inputTwitch" required />
+        </div>
+        <div class="form-group">
+          <label><i class="fa-brands fa-youtube"></i> YouTube URL</label>
+          <input type="url" id="inputYoutube" required />
+        </div>
+        <div class="form-group">
+          <label><i class="fa-brands fa-discord"></i> Discord URL</label>
+          <input type="url" id="inputDiscord" required />
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-bolt"></i> Kick URL</label>
+          <input type="url" id="inputKick" required />
+        </div>
+        <div class="form-group">
+          <label><i class="fa-brands fa-tiktok"></i> TikTok URL</label>
+          <input type="url" id="inputTiktok" required />
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-bag-shopping"></i> Merch URL</label>
+          <input type="url" id="inputMerch" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Save Links</button>
+        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeSocialModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADD HARDWARE MODAL -->
+  <div class="modal-overlay" id="hardwareModal">
+    <div class="modal">
+      <h2><i class="fa-solid fa-desktop"></i> Add Command Center Panel</h2>
+      <form id="hardwareForm" onsubmit="handleAddHardware(event)">
+        <div class="form-group">
+          <label>Panel Title</label>
+          <input type="text" id="newHwTitle" placeholder="e.g. Mobile IRL Backpack" required />
+        </div>
+        <div class="form-group">
+          <label>Icon (FontAwesome Class)</label>
+          <input type="text" id="newHwIcon" placeholder="e.g. fa-solid fa-laptop" value="fa-solid fa-desktop" required />
+        </div>
+        <div class="form-group">
+          <label>Specs (Line separated: Label | Value)</label>
+          <textarea id="newHwSpecs" rows="4" placeholder="CPU | AMD Ryzen 7&#10;GPU | RTX 4080" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Add Panel</button>
+        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeHardwareModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADD PROJECT MODAL -->
+  <div class="modal-overlay" id="projectModal">
+    <div class="modal">
+      <h2><i class="fa-solid fa-folder-plus"></i> New Project</h2>
+      <form id="projectForm" onsubmit="handleAddProject(event)">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="newProjTitle" placeholder="e.g. Chat Overlay Bot" required />
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="newProjDesc" rows="3" placeholder="Briefly describe what this project does..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Tag / Tech Stack</label>
+          <input type="text" id="newProjTag" placeholder="e.g. C# / Streamer.bot" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Add Project</button>
+        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeProjectModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADD SCHEDULE MODAL -->
+  <div class="modal-overlay" id="scheduleModal">
+    <div class="modal">
+      <h2><i class="fa-solid fa-calendar-plus"></i> Add Stream Day</h2>
+      <form id="scheduleForm" onsubmit="handleAddSchedule(event)">
+        <div class="form-group">
+          <label>Day of Week</label>
+          <input type="text" id="newSchedDay" placeholder="e.g. Friday" required />
+        </div>
+        <div class="form-group">
+          <label>Time Slot</label>
+          <input type="text" id="newSchedTime" placeholder="e.g. 8:00 PM EST" required />
+        </div>
+        <div class="form-group">
+          <label>Stream Topic / Game</label>
+          <input type="text" id="newSchedDesc" placeholder="e.g. Hogwarts Legacy & Streamer.bot Coding" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Add Day</button>
+        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="closeScheduleModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    let isAdmin = false;
+    let isOnAir = false;
+    const DEFAULT_PASS = "admin";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedContent();
+      
+      // Auto-save changes on blur when editing content
+      document.body.addEventListener('focusout', (e) => {
+        if (e.target.hasAttribute('contenteditable')) {
+          saveAllContent();
+        }
+      });
+    });
+
+    function toggleAdminModal() {
+      if (isAdmin) {
+        logoutAdmin();
+      } else {
+        document.getElementById('loginModal').style.display = 'flex';
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const pwd = document.getElementById('adminPassword').value;
+      if (pwd === DEFAULT_PASS) {
+        isAdmin = true;
+        document.body.classList.add('admin-mode');
+        document.getElementById('adminBtnText').innerText = 'Logout';
+        document.getElementById('addProjectBtn').style.display = 'inline-flex';
+        document.getElementById('addScheduleBtn').style.display = 'inline-flex';
+        document.getElementById('addHardwareBtn').style.display = 'inline-flex';
+        document.getElementById('loginModal').style.display = 'none';
+        document.getElementById('adminPassword').value = '';
+        setEditable(true);
+      } else {
+        alert('Incorrect password! (Default is "admin")');
+      }
+    }
+
+    function logoutAdmin() {
+      isAdmin = false;
+      document.body.classList.remove('admin-mode');
+      document.getElementById('adminBtnText').innerText = 'Admin Login';
+      document.getElementById('addProjectBtn').style.display = 'none';
+      document.getElementById('addScheduleBtn').style.display = 'none';
+      document.getElementById('addHardwareBtn').style.display = 'none';
+      setEditable(false);
+    }
+
+    function setEditable(enabled) {
+      document.querySelectorAll('[contenteditable]').forEach(el => {
+        el.contentEditable = enabled;
+      });
+    }
+
+    /* EDIT SOCIAL LINKS */
+    function openSocialModal() {
+      document.getElementById('inputTwitch').value = document.getElementById('linkTwitch').href;
+      document.getElementById('inputYoutube').value = document.getElementById('linkYoutube').href;
+      document.getElementById('inputDiscord').value = document.getElementById('linkDiscord').href;
+      document.getElementById('inputKick').value = document.getElementById('linkKick').href;
+      document.getElementById('inputTiktok').value = document.getElementById('linkTiktok').href;
+      document.getElementById('inputMerch').value = document.getElementById('linkMerch').href;
+      document.getElementById('socialModal').style.display = 'flex';
+    }
+
+    function closeSocialModal() {
+      document.getElementById('socialModal').style.display = 'none';
+    }
+
+    function handleSaveSocials(e) {
+      e.preventDefault();
+      document.getElementById('linkTwitch').href = document.getElementById('inputTwitch').value;
+      document.getElementById('linkYoutube').href = document.getElementById('inputYoutube').value;
+      document.getElementById('linkDiscord').href = document.getElementById('inputDiscord').value;
+      document.getElementById('linkKick').href = document.getElementById('inputKick').value;
+      document.getElementById('linkTiktok').href = document.getElementById('inputTiktok').value;
+      document.getElementById('linkMerch').href = document.getElementById('inputMerch').value;
+      closeSocialModal();
+      saveAllContent();
+    }
+
+    /* ON-AIR STATUS TOGGLE */
+    function toggleOnAir() {
+      isOnAir = !isOnAir;
+      applyOnAirState(isOnAir);
+      saveAllContent();
+    }
+
+    function applyOnAirState(live) {
+      const navBadge = document.getElementById('navStatusBadge');
+      const statusText = document.getElementById('statusText');
+      const label = document.getElementById('onAirStateLabel');
+
+      if (live) {
+        document.body.classList.add('live-active');
+        navBadge.className = 'nav-status on-air';
+        statusText.innerText = 'ON AIR';
+        label.innerText = 'ON';
+      } else {
+        document.body.classList.remove('live-active');
+        navBadge.className = 'nav-status off-air';
+        statusText.innerText = 'Off Air';
+        label.innerText = 'OFF';
+      }
+    }
+
+    /* AVATAR UPLOAD */
+    function uploadAvatar(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imgUrl = e.target.result;
+          setAvatarImage(imgUrl);
+          saveAllContent();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function setAvatarImage(url) {
+      const img = document.getElementById('avatarImg');
+      const icon = document.getElementById('avatarIcon');
+      if (url) {
+        img.src = url;
+        img.style.display = 'block';
+        icon.style.display = 'none';
+      }
+    }
+
+    /* COMMAND CENTER / HARDWARE MANAGEMENT */
+    function openHardwareModal() {
+      document.getElementById('hardwareModal').style.display = 'flex';
+    }
+
+    function closeHardwareModal() {
+      document.getElementById('hardwareModal').style.display = 'none';
+    }
+
+    function handleAddHardware(e) {
+      e.preventDefault();
+      const title = document.getElementById('newHwTitle').value;
+      const iconClass = document.getElementById('newHwIcon').value || 'fa-solid fa-desktop';
+      const specsRaw = document.getElementById('newHwSpecs').value.split('\n');
+
+      let specsHTML = '';
+      specsRaw.forEach(line => {
+        if (line.includes('|')) {
+          const parts = line.split('|');
+          specsHTML += `<li><span contenteditable="${isAdmin}">${parts[0].trim()}</span><strong contenteditable="${isAdmin}">${parts[1].trim()}</strong></li>`;
+        }
+      });
+
+      const grid = document.getElementById('hardwareGrid');
+      const card = document.createElement('div');
+      card.className = 'card hardware-card';
+      card.innerHTML = `
+        <div class="card-icon"><i class="${iconClass}"></i></div>
+        <h3 contenteditable="${isAdmin}">${title}</h3>
+        <ul class="specs-list">
+          ${specsHTML}
+        </ul>
+        <div class="admin-controls">
+          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      `;
+
+      grid.appendChild(card);
+      closeHardwareModal();
+      document.getElementById('hardwareForm').reset();
+      saveAllContent();
+    }
+
+    /* SCHEDULE MANAGEMENT */
+    function openScheduleModal() {
+      document.getElementById('scheduleModal').style.display = 'flex';
+    }
+
+    function closeScheduleModal() {
+      document.getElementById('scheduleModal').style.display = 'none';
+    }
+
+    function handleAddSchedule(e) {
+      e.preventDefault();
+      const day = document.getElementById('newSchedDay').value;
+      const time = document.getElementById('newSchedTime').value;
+      const desc = document.getElementById('newSchedDesc').value;
+
+      const grid = document.getElementById('scheduleGrid');
+      const card = document.createElement('div');
+      card.className = 'card schedule-card';
+      card.innerHTML = `
+        <h3><i class="fa-regular fa-calendar-days"></i> <span contenteditable="${isAdmin}" class="sched-day">${day}</span></h3>
+        <p style="color: var(--accent-secondary); font-weight: 600;" contenteditable="${isAdmin}" class="sched-time">${time}</p>
+        <p contenteditable="${isAdmin}" class="sched-desc">${desc}</p>
+        <div class="admin-controls">
+          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      `;
+
+      grid.appendChild(card);
+      closeScheduleModal();
+      document.getElementById('scheduleForm').reset();
+      saveAllContent();
+    }
+
+    /* PROJECT MANAGEMENT */
+    function openProjectModal() {
+      document.getElementById('projectModal').style.display = 'flex';
+    }
+
+    function closeProjectModal() {
+      document.getElementById('projectModal').style.display = 'none';
+    }
+
+    function handleAddProject(e) {
+      e.preventDefault();
+      const title = document.getElementById('newProjTitle').value;
+      const desc = document.getElementById('newProjDesc').value;
+      const tag = document.getElementById('newProjTag').value;
+
+      const grid = document.getElementById('projectsGrid');
+      const card = document.createElement('div');
+      card.className = 'card project-card';
+      card.innerHTML = `
+        <div class="card-icon"><i class="fa-solid fa-code"></i></div>
+        <h3 contenteditable="${isAdmin}" class="proj-title">${title}</h3>
+        <p contenteditable="${isAdmin}" class="proj-desc">${desc}</p>
+        <span class="tag proj-tag" contenteditable="${isAdmin}">${tag}</span>
+        <div class="admin-controls">
+          <button class="btn btn-admin" onclick="deleteCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      `;
+
+      grid.appendChild(card);
+      closeProjectModal();
+      document.getElementById('projectForm').reset();
+      saveAllContent();
+    }
+
+    function deleteCard(button) {
+      if (confirm('Are you sure you want to delete this card?')) {
+        button.closest('.card').remove();
+        saveAllContent();
+      }
+    }
+
+    /* LOCAL STORAGE PERSISTENCE */
+    function saveAllContent() {
+      const data = {
+        isOnAir: isOnAir,
+        avatarImgSrc: document.getElementById('avatarImg').src,
+        heroTitle: document.getElementById('heroTitle').innerText,
+        heroSubtitle: document.getElementById('heroSubtitle').innerText,
+        aboutBio: document.getElementById('aboutBio').innerText,
+        socials: {
+          twitch: document.getElementById('linkTwitch').href,
+          youtube: document.getElementById('linkYoutube').href,
+          discord: document.getElementById('linkDiscord').href,
+          kick: document.getElementById('linkKick').href,
+          tiktok: document.getElementById('linkTiktok').href,
+          merch: document.getElementById('linkMerch').href
+        },
+        scheduleHTML: document.getElementById('scheduleGrid').innerHTML,
+        hardwareHTML: document.getElementById('hardwareGrid').innerHTML,
+        projectsHTML: document.getElementById('projectsGrid').innerHTML
+      };
+      localStorage.setItem('mrTelesirFullData', JSON.stringify(data));
+    }
+
+    function loadSavedContent() {
+      const saved = localStorage.getItem('mrTelesirFullData');
+      if (!saved) return;
+
+      const data = JSON.parse(saved);
+      isOnAir = data.isOnAir || false;
+      applyOnAirState(isOnAir);
+
+      if (data.avatarImgSrc && data.avatarImgSrc.length > 10) {
+        setAvatarImage(data.avatarImgSrc);
+      }
+      if (data.heroTitle) document.getElementById('heroTitle').innerText = data.heroTitle;
+      if (data.heroSubtitle) document.getElementById('heroSubtitle').innerText = data.heroSubtitle;
+      if (data.aboutBio) document.getElementById('aboutBio').innerText = data.aboutBio;
+
+      if (data.socials) {
+        if (data.socials.twitch) document.getElementById('linkTwitch').href = data.socials.twitch;
+        if (data.socials.youtube) document.getElementById('linkYoutube').href = data.socials.youtube;
+        if (data.socials.discord) document.getElementById('linkDiscord').href = data.socials.discord;
+        if (data.socials.kick) document.getElementById('linkKick').href = data.socials.kick;
+        if (data.socials.tiktok) document.getElementById('linkTiktok').href = data.socials.tiktok;
+        if (data.socials.merch) document.getElementById('linkMerch').href = data.socials.merch;
+      }
+
+      if (data.scheduleHTML) document.getElementById('scheduleGrid').innerHTML = data.scheduleHTML;
+      if (data.hardwareHTML) document.getElementById('hardwareGrid').innerHTML = data.hardwareHTML;
+      if (data.projectsHTML) document.getElementById('projectsGrid').innerHTML = data.projectsHTML;
+    }
+  </script>
+</body>
+</html>
