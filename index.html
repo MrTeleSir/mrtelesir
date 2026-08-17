@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MrTelesir | Official Stream &amp; Hub</title>
+  <title>MrTelesir | Official Stream & Hub</title>
   <!-- Google Fonts & FontAwesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Rajdhani:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
@@ -860,13 +861,24 @@
     }
   </style>
 </head>
-<body class="">
+<body>
 
   <!-- ADMIN BAR -->
-  
+  <div class="admin-panel-bar">
+    <div class="admin-info">
+      <i class="fa-solid fa-wand-magic-sparkles"></i> Admin Mode Active — Add streamers, edit links, and manage site hubs easily!
+    </div>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="saveEditsLocally()"><i class="fa-solid fa-floppy-disk"></i> Save Local</button>
+      <button class="admin-btn primary" onclick="openPublishModal()"><i class="fa-solid fa-cloud-arrow-up"></i> Publish Live to GitHub</button>
+      <button class="admin-btn" onclick="exitAdminMode()"><i class="fa-solid fa-xmark"></i> Exit</button>
+    </div>
+  </div>
 
   <!-- FLOATING ADMIN TOGGLE -->
-  
+  <div class="admin-toggle-trigger" onclick="promptAdminLogin()" title="Admin Settings">
+    <i class="fa-solid fa-gear"></i>
+  </div>
 
   <!-- HEADER -->
   <header>
@@ -875,8 +887,8 @@
       <div class="logo-text">
         <h1 id="brandTitle">MrTelesir</h1>
         <div class="live-badge-wrapper">
-          <div class="live-dot is-live" id="liveDot"></div>
-          <span class="live-status-text is-live" id="liveStatusText">ONLINE</span>
+          <div class="live-dot" id="liveDot"></div>
+          <span class="live-status-text" id="liveStatusText">Checking Status...</span>
         </div>
       </div>
     </a>
@@ -897,7 +909,10 @@
       <!-- STREAM PLAYER -->
       <div class="stream-container">
         <div class="video-wrapper" id="videoWrapper">
-          <iframe id="twitchEmbed" src="https://player.twitch.tv/?channel=mrtelesir&amp;parent=localhost&amp;muted=true" allowfullscreen="">
+          <iframe 
+            id="twitchEmbed"
+            src="" 
+            allowfullscreen>
           </iframe>
         </div>
         <div class="stream-details">
@@ -908,7 +923,9 @@
           <a href="https://twitch.tv/mrtelesir" target="_blank" class="watch-on-btn" id="watchOnTwitchBtn">
             <i class="fa-brands fa-twitch"></i> Open Twitch
           </a>
-          
+          <div class="admin-only-control" style="position: absolute; bottom: 8px; right: 24px; margin-top:0;">
+            <button class="item-admin-btn" onclick="openEditCtaModal()"><i class="fa-solid fa-pen"></i> Edit Link</button>
+          </div>
         </div>
       </div>
 
@@ -916,7 +933,7 @@
       <div class="sidebar-card">
         <div class="card-header-title">
           <div><i class="fa-solid fa-calendar-days"></i> Stream Schedule</div>
-          
+          <button class="item-admin-btn success admin-only-control" onclick="openAddScheduleModal()"><i class="fa-solid fa-plus"></i> Add Slot</button>
         </div>
         <div class="schedule-list" id="scheduleList">
           <div class="schedule-item" data-id="1">
@@ -924,28 +941,28 @@
               <span class="schedule-day">Monday</span>
               <span class="schedule-time">7:00 PM CST</span>
             </div>
-            
+            <button class="item-admin-btn danger admin-only-control" onclick="removeScheduleItem(this)"><i class="fa-solid fa-trash"></i></button>
           </div>
           <div class="schedule-item" data-id="2">
             <div>
               <span class="schedule-day">Wednesday</span>
               <span class="schedule-time">7:00 PM CST</span>
             </div>
-            
+            <button class="item-admin-btn danger admin-only-control" onclick="removeScheduleItem(this)"><i class="fa-solid fa-trash"></i></button>
           </div>
           <div class="schedule-item" data-id="3">
             <div>
               <span class="schedule-day">Friday</span>
               <span class="schedule-time">8:00 PM CST</span>
             </div>
-            
+            <button class="item-admin-btn danger admin-only-control" onclick="removeScheduleItem(this)"><i class="fa-solid fa-trash"></i></button>
           </div>
           <div class="schedule-item" data-id="4">
             <div>
               <span class="schedule-day">Weekend Vibe</span>
               <span class="schedule-time">Random / Check Discord</span>
             </div>
-            
+            <button class="item-admin-btn danger admin-only-control" onclick="removeScheduleItem(this)"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       </div>
@@ -959,7 +976,7 @@
       <div class="sidebar-card" style="box-shadow:none;">
         <div class="card-header-title">
           <div><i class="fa-solid fa-globe"></i> Connected Hubs</div>
-          
+          <button class="item-admin-btn success admin-only-control" onclick="openAddPlatformModal()"><i class="fa-solid fa-plus"></i> Add Hub</button>
         </div>
         <div class="platforms-grid" id="platformsGrid">
           <a href="https://twitch.tv/mrtelesir" target="_blank" class="platform-card" data-name="Twitch">
@@ -968,8 +985,11 @@
               <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
             </div>
             <span>Twitch</span>
-            <p>Main live broadcasts &amp; chat</p>
-            
+            <p>Main live broadcasts & chat</p>
+            <div class="admin-only-control" style="position: absolute; bottom: 8px; right: 8px; gap: 4px;">
+              <button class="item-admin-btn" onclick="event.preventDefault(); openEditPlatformModal(this);"><i class="fa-solid fa-pen"></i> Edit Link</button>
+              <button class="item-admin-btn danger" onclick="event.preventDefault(); removePlatformCard(this);"><i class="fa-solid fa-trash"></i></button>
+            </div>
           </a>
           <a href="https://kick.com/mrtelesir" target="_blank" class="platform-card" data-name="Kick">
             <div class="platform-card-top">
@@ -978,7 +998,10 @@
             </div>
             <span>Kick</span>
             <p>Alternative streaming portal</p>
-            
+            <div class="admin-only-control" style="position: absolute; bottom: 8px; right: 8px; gap: 4px;">
+              <button class="item-admin-btn" onclick="event.preventDefault(); openEditPlatformModal(this);"><i class="fa-solid fa-pen"></i> Edit Link</button>
+              <button class="item-admin-btn danger" onclick="event.preventDefault(); removePlatformCard(this);"><i class="fa-solid fa-trash"></i></button>
+            </div>
           </a>
           <a href="https://youtube.com/@mrtelesir" target="_blank" class="platform-card" data-name="YouTube">
             <div class="platform-card-top">
@@ -986,8 +1009,11 @@
               <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
             </div>
             <span>YouTube</span>
-            <p>VODs, clips, &amp; highlights</p>
-            
+            <p>VODs, clips, & highlights</p>
+            <div class="admin-only-control" style="position: absolute; bottom: 8px; right: 8px; gap: 4px;">
+              <button class="item-admin-btn" onclick="event.preventDefault(); openEditPlatformModal(this);"><i class="fa-solid fa-pen"></i> Edit Link</button>
+              <button class="item-admin-btn danger" onclick="event.preventDefault(); removePlatformCard(this);"><i class="fa-solid fa-trash"></i></button>
+            </div>
           </a>
           <a href="https://discord.gg/mrtelesir" target="_blank" class="platform-card" data-name="Discord">
             <div class="platform-card-top">
@@ -995,8 +1021,11 @@
               <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; color: var(--text-muted);"></i>
             </div>
             <span>Discord</span>
-            <p>Community server &amp; announcements</p>
-            
+            <p>Community server & announcements</p>
+            <div class="admin-only-control" style="position: absolute; bottom: 8px; right: 8px; gap: 4px;">
+              <button class="item-admin-btn" onclick="event.preventDefault(); openEditPlatformModal(this);"><i class="fa-solid fa-pen"></i> Edit Link</button>
+              <button class="item-admin-btn danger" onclick="event.preventDefault(); removePlatformCard(this);"><i class="fa-solid fa-trash"></i></button>
+            </div>
           </a>
         </div>
       </div>
@@ -1021,7 +1050,7 @@
     <div class="mods-section">
       <div class="card-header-title">
         <div><i class="fa-solid fa-shield-halved" style="color: var(--twitch-purple);"></i> Channel Moderators</div>
-        
+        <button class="item-admin-btn success admin-only-control" onclick="openAddModModal()"><i class="fa-solid fa-plus"></i> Add Moderator</button>
       </div>
       <div class="mods-grid" id="modsGrid">
         <div class="mod-card">
@@ -1032,7 +1061,10 @@
               <div class="mod-role-text">Chat Moderator</div>
             </div>
           </div>
-          
+          <div class="admin-only-control" style="margin-top:0; gap: 4px;">
+            <button class="item-admin-btn" onclick="openEditModModal(this)"><i class="fa-solid fa-pen"></i> Edit</button>
+            <button class="item-admin-btn danger" onclick="removeModCard(this)"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </div>
       </div>
     </div>
@@ -1045,7 +1077,7 @@
       <p style="font-size: 0.9rem; color: var(--text-muted);">Type a streamer's name and choose their platform to generate a quick-access profile card linking directly to their channel.</p>
       
       <div class="lookup-controls">
-        <input type="text" id="streamerLookupInput" placeholder="Enter streamer username...">
+        <input type="text" id="streamerLookupInput" placeholder="Enter streamer username..." />
         <select id="streamerPlatformSelect">
           <option value="twitch">Twitch</option>
           <option value="kick">Kick</option>
@@ -1065,7 +1097,9 @@
               <span class="streamer-card-platform">Twitch Channel</span>
             </div>
           </div>
-          
+          <div class="admin-only-control" style="margin-top:0;">
+            <button class="item-admin-btn danger" onclick="event.preventDefault(); this.closest('.streamer-profile-card').remove();"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </a>
       </div>
     </div>
@@ -1074,7 +1108,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <p id="footerText">© 2026 MrTelesir. All rights reserved. Built for creators, streamers, and communities.</p>
+    <p id="footerText">&copy; 2026 MrTelesir. All rights reserved. Built for creators, streamers, and communities.</p>
   </footer>
 
   <!-- ADMIN LOGIN MODAL -->
@@ -1183,7 +1217,7 @@
   </div>
 
   <!-- GITHUB PUBLISH MODAL -->
-  <div class="modal-backdrop active" id="publishModal">
+  <div class="modal-backdrop" id="publishModal">
     <div class="modal-box" style="max-width: 520px;">
       <h3>Publish Changes to GitHub</h3>
       <p>Push your updated `index.html` directly to your repository to update your live site instantly.</p>
@@ -1208,11 +1242,11 @@
         <input type="password" id="ghToken" class="form-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
       </div>
 
-      <div id="publishStatus" style="font-size: 0.9rem; font-weight: 600; min-height: 20px; color: var(--accent-secondary);">Preparing site snapshot...</div>
+      <div id="publishStatus" style="font-size: 0.9rem; font-weight: 600; min-height: 20px;"></div>
 
       <div class="modal-buttons">
         <button class="modal-btn cancel" onclick="closePublishModal()">Cancel</button>
-        <button class="modal-btn submit" id="publishBtn" onclick="handleGitHubPublish(event)" disabled="">Push to GitHub 🚀</button>
+        <button class="modal-btn submit" id="publishBtn" onclick="handleGitHubPublish(event)">Push to GitHub 🚀</button>
       </div>
     </div>
   </div>
@@ -1627,5 +1661,5 @@
       }
     }
   </script>
-
-</body></html>
+</body>
+</html>
