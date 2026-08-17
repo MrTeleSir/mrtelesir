@@ -486,8 +486,15 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
+    /* Hidden by default so public users can't see/add streamers */
     .lookup-controls {
+      display: none; 
+    }
+    .admin-active .lookup-controls {
       display: flex;
+    }
+
+    .lookup-controls {
       gap: 12px;
       flex-wrap: wrap;
     }
@@ -780,7 +787,7 @@
     <a href="#" class="logo-area">
       <div class="logo-avatar" id="brandLogoLetter">T</div>
       <div class="logo-text">
-        <h1 id="brandTitle" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">MrTelesir</h1>
+        <h1 id="brandTitle" contenteditable="false">MrTelesir</h1>
         <div class="live-badge-wrapper">
           <div class="live-dot is-live" id="liveDot"></div>
           <span class="live-status-text is-live" id="liveStatusText">ONLINE</span>
@@ -811,8 +818,8 @@
         </div>
         <div class="stream-details">
           <div class="stream-info-left">
-            <h2 id="streamHeading" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Live Broadcast Channel</h2>
-            <p id="streamSubheading" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Streaming community gameplay, tech projects, and late-night vibes.</p>
+            <h2 id="streamHeading" contenteditable="false">Live Broadcast Channel</h2>
+            <p id="streamSubheading" contenteditable="false">Streaming community gameplay, tech projects, and late-night vibes.</p>
           </div>
           <a href="https://twitch.tv/mrtelesir" target="_blank" class="watch-on-btn" id="watchOnTwitchBtn">
             <i class="fa-brands fa-twitch"></i> Open Twitch
@@ -827,17 +834,14 @@
           <button class="lookup-add-btn" id="addScheduleBtn" style="display: none; padding: 6px 12px; font-size: 0.8rem;" onclick="addScheduleItemPrompt()"><i class="fa-solid fa-plus"></i> Add Slot</button>
         </div>
         <div class="schedule-list" id="scheduleList">
-          
-          
-          
-          
-        <div class="schedule-item">
-        <div>
-          <span class="schedule-day" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Sunday-Saturday</span>
-          <span class="schedule-time" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">24/7</span>
+          <div class="schedule-item">
+            <div>
+              <span class="schedule-day" contenteditable="false">Sunday-Saturday</span>
+              <span class="schedule-time" contenteditable="false">24/7</span>
+            </div>
+            <button class="delete-btn" onclick="this.closest('.schedule-item').remove()"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </div>
-        <button class="delete-btn" onclick="this.closest('.schedule-item').remove()"><i class="fa-solid fa-trash"></i></button>
-      </div></div>
       </div>
 
     </div>
@@ -845,7 +849,7 @@
     <!-- SECONDARY SECTION: PLATFORMS & SHOP -->
     <div class="content-sections-grid">
       
-      <!-- Quick Platforms Grid (TikTok Replaces Twitch Hub) -->
+      <!-- Quick Platforms Grid -->
       <div class="sidebar-card" style="box-shadow:none;">
         <div class="card-header-title">
           <div><i class="fa-solid fa-globe"></i> Connected Hubs</div>
@@ -892,8 +896,8 @@
           <div class="card-header-title" style="border:none; padding:0;">
             <div><i class="fa-solid fa-bag-shopping" style="color: var(--shop-orange);"></i> Official Merch Store</div>
           </div>
-          <h3 id="shopHeading" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">MrTelesir Collection</h3>
-          <p id="shopDescription" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">High-quality apparel, hoodies, and stream accessories custom designed for the community. Grab your gear today!</p>
+          <h3 id="shopHeading" contenteditable="false">MrTelesir Collection</h3>
+          <p id="shopDescription" contenteditable="false">High-quality apparel, hoodies, and stream accessories custom designed for the community. Grab your gear today!</p>
         </div>
         <a href="https://mrtelesir-shop.fourthwall.com/" target="_blank" class="shop-btn" id="shopStoreLinkBtn">
           <i class="fa-solid fa-store"></i> Visit Fourthwall Store <i class="fa-solid fa-arrow-right"></i>
@@ -909,53 +913,47 @@
         <button class="lookup-add-btn" id="addModBtn" style="display: none; padding: 6px 12px; font-size: 0.8rem;" onclick="addNewModPrompt()"><i class="fa-solid fa-plus"></i> Add Mod</button>
       </div>
       <div class="mods-grid" id="modsGrid">
-        
-      <div class="mod-card">
-        <div class="mod-info">
-          <div class="mod-avatar-badge">A</div>
-          <div>
-            <div class="mod-name-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Asifab19</div>
-            <div class="mod-role-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Head Administrator</div>
+        <div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">A</div>
+            <div>
+              <div class="mod-name-text" contenteditable="false">Asifab19</div>
+              <div class="mod-role-text" contenteditable="false">Head Administrator</div>
+            </div>
           </div>
+          <button class="delete-btn" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
         </div>
-        <button class="delete-btn" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
-      </div><div class="mod-card">
-        <div class="mod-info">
-          <div class="mod-avatar-badge">D</div>
-          <div>
-            <div class="mod-name-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">DogHairInMyKeyboard</div>
-            <div class="mod-role-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Head Administrator</div>
+        <div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">D</div>
+            <div>
+              <div class="mod-name-text" contenteditable="false">DogHairInMyKeyboard</div>
+              <div class="mod-role-text" contenteditable="false">Head Administrator</div>
+            </div>
           </div>
+          <button class="delete-btn" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
         </div>
-        <button class="delete-btn" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
-      </div><div class="mod-card">
-        <div class="mod-info">
-          <div class="mod-avatar-badge">L</div>
-          <div>
-            <div class="mod-name-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">LargeCarTrucker</div>
-            <div class="mod-role-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Business Manager</div>
+        <div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">L</div>
+            <div>
+              <div class="mod-name-text" contenteditable="false">LargeCarTrucker</div>
+              <div class="mod-role-text" contenteditable="false">Business Manager</div>
+            </div>
           </div>
+          <button class="delete-btn" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
         </div>
-        <button class="delete-btn" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
-      </div><div class="mod-card">
-        <div class="mod-info">
-          <div class="mod-avatar-badge">R</div>
-          <div>
-            <div class="mod-name-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Rucky80</div>
-            <div class="mod-role-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Business Manager</div>
+        <div class="mod-card">
+          <div class="mod-info">
+            <div class="mod-avatar-badge">R</div>
+            <div>
+              <div class="mod-name-text" contenteditable="false">Rucky80</div>
+              <div class="mod-role-text" contenteditable="false">Business Manager</div>
+            </div>
           </div>
+          <button class="delete-btn" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
         </div>
-        <button class="delete-btn" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
-      </div><div class="mod-card">
-        <div class="mod-info">
-          <div class="mod-avatar-badge">Z</div>
-          <div>
-            <div class="mod-name-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Zombie_Santa_TTV</div>
-            <div class="mod-role-text" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Undead Moderator</div>
-          </div>
-        </div>
-        <button class="delete-btn" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
-      </div></div>
+      </div>
     </div>
 
     <!-- STREAMER QUICK-LOOKUP & LINK HUB SECTION -->
@@ -963,8 +961,9 @@
       <div class="card-header-title">
         <div><i class="fa-solid fa-user-plus" style="color: var(--twitch-purple);"></i> Streamer Quick Links</div>
       </div>
-      <p style="font-size: 0.9rem; color: var(--text-muted);">Type a streamer's name and choose their platform to generate a quick-access profile card linking directly to their channel.</p>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">Quick-access profile cards linking directly to community channels.</p>
       
+      <!-- Only visible when Admin Mode is active -->
       <div class="lookup-controls">
         <input type="text" id="streamerLookupInput" placeholder="Enter streamer username...">
         <select id="streamerPlatformSelect">
@@ -977,26 +976,27 @@
       </div>
 
       <div class="streamer-profiles-grid" id="streamerProfilesGrid">
-        
-      <div class="streamer-profile-card">
-        <a href="https://twitch.tv/SBMel" target="_blank" rel="noopener noreferrer" class="streamer-profile-info" style="text-decoration:none; color:inherit; flex:1; display:flex; align-items:center; gap:12px; overflow:hidden;">
-          <div class="streamer-avatar-circle">S</div>
-          <div class="streamer-text-details">
-            <span class="streamer-card-name" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">SBMel</span>
-            <span class="streamer-card-platform" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Twitch Channel</span>
-          </div>
-        </a>
-        <button class="delete-btn" onclick="this.closest('.streamer-profile-card').remove();" style="position:absolute; right:10px; top:10px;"><i class="fa-solid fa-trash"></i></button>
-      </div><div class="streamer-profile-card">
-        <a href="https://twitch.tv/LargeCarTrucker" target="_blank" rel="noopener noreferrer" class="streamer-profile-info" style="text-decoration:none; color:inherit; flex:1; display:flex; align-items:center; gap:12px; overflow:hidden;">
-          <div class="streamer-avatar-circle">L</div>
-          <div class="streamer-text-details">
-            <span class="streamer-card-name" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">LargeCarTrucker</span>
-            <span class="streamer-card-platform" contenteditable="false" style="border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;">Twitch Channel</span>
-          </div>
-        </a>
-        <button class="delete-btn" onclick="this.closest('.streamer-profile-card').remove();" style="position:absolute; right:10px; top:10px;"><i class="fa-solid fa-trash"></i></button>
-      </div></div>
+        <div class="streamer-profile-card">
+          <a href="https://twitch.tv/SBMel" target="_blank" rel="noopener noreferrer" class="streamer-profile-info" style="text-decoration:none; color:inherit; flex:1; display:flex; align-items:center; gap:12px; overflow:hidden;">
+            <div class="streamer-avatar-circle">S</div>
+            <div class="streamer-text-details">
+              <span class="streamer-card-name" contenteditable="false">SBMel</span>
+              <span class="streamer-card-platform" contenteditable="false">Twitch Channel</span>
+            </div>
+          </a>
+          <button class="delete-btn" onclick="this.closest('.streamer-profile-card').remove();" style="position:absolute; right:10px; top:10px;"><i class="fa-solid fa-trash"></i></button>
+        </div>
+        <div class="streamer-profile-card">
+          <a href="https://twitch.tv/LargeCarTrucker" target="_blank" rel="noopener noreferrer" class="streamer-profile-info" style="text-decoration:none; color:inherit; flex:1; display:flex; align-items:center; gap:12px; overflow:hidden;">
+            <div class="streamer-avatar-circle">L</div>
+            <div class="streamer-text-details">
+              <span class="streamer-card-name" contenteditable="false">LargeCarTrucker</span>
+              <span class="streamer-card-platform" contenteditable="false">Twitch Channel</span>
+            </div>
+          </a>
+          <button class="delete-btn" onclick="this.closest('.streamer-profile-card').remove();" style="position:absolute; right:10px; top:10px;"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </div>
     </div>
 
   </main>
